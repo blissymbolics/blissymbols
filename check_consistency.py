@@ -1,9 +1,15 @@
 
 import sys
 import re
+import os.path
+import glob
+
+SVGDIR = "svg"
+
 
 def error(sym, err, *args):
-    print >>sys.stderr, "Error in symbol %r: %s" % (sym, err % args)
+    print >>sys.stderr, "Error in symbol {0:.<40} {1}".format(sym, err % args)
+
 
 def is_cyclic(data, sym, visited):
     if sym in visited:
@@ -22,7 +28,7 @@ def check_consistency(blissfile):
     mod = {}
     exec(code, mod)
     data = mod['BLISSDATA']
-    for sym, info in data.items():
+    for sym, info in sorted(data.items()):
         typ, definition, kern, height, width, center, modified, verified = (
             map(info.get, 'type definition kern height width center modified verified'.split()))
         if typ not in ('word', 'char', 'ind', 'mod', 'punct'):
@@ -52,6 +58,15 @@ def check_consistency(blissfile):
                 error(sym, "Center must be an integer, not: %r", width)
         if verified and not modified:
             error(sym, "The symbol is not modified, but verified by: %r", verified)
+        svgfile = os.path.join(SVGDIR, sym + '.svg')
+        if not os.path.isfile(svgfile):
+            error(sym, "The SVG file does not exist: %s", svgfile)
+
+    for svgfile in glob.glob(os.path.join(SVGDIR, '*.svg')):
+        sym = os.path.split(svgfile)[-1]
+        sym = sym[:-4] # remove '.svg' at the end
+        if sym not in data:
+            error(svgfile, "The SVG file has no corresponding symbol: %r", sym)
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
