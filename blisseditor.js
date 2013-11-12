@@ -81,7 +81,7 @@ function show_images(id) {
     $('#images').empty();
     var data = BLISSDATA[id];
     if (!data) return;
-    $('<object type="image/svg+xml" height="100"></object>')
+    $('<object type="image/svg+xml" height="100">')
         .attr('data', imgpath(id))
         .appendTo($('#images'));
     if ($('#definition-row').is(':visible')) {
@@ -92,7 +92,7 @@ function show_images(id) {
                 $('<span>')
                     .html(i==0 ? " &nbsp; = &nbsp; " : " &nbsp; + &nbsp; ")
                     .appendTo($('#images'));
-                $('<object type="image/svg+xml" height="100"></object>')
+                $('<object type="image/svg+xml" height="100">')
                     .attr('data', imgpath(val))
                     .appendTo($('#images'));
             }
