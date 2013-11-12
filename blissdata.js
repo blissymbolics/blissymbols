@@ -3659,17 +3659,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"B_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "B_(letter)": {
 	"type": "char",
 	"definition": null,
@@ -8585,17 +8574,6 @@ BLISSDATA = {
 },
 
 "by,by_means_of,of": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"C_(letter,small)": {
 	"type": "char",
 	"definition": null,
 	"height": null,
@@ -15137,17 +15115,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"D_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "dance_music": {
 	"type": "word",
 	"definition": [
@@ -18473,17 +18440,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"E_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "e-mail_address,email_address": {
 	"type": "word",
 	"definition": [
@@ -19111,17 +19067,6 @@ BLISSDATA = {
 		"country,state",
 		"pyramid"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"eight_(digit,small)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
@@ -21126,28 +21071,6 @@ BLISSDATA = {
 		"and,also,plus,too",
 		"NEW.eyeliner,kohl.456"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"F_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"F_(letter)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
@@ -24907,28 +24830,6 @@ BLISSDATA = {
 },
 
 "future": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"G_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"G_(letter)": {
 	"type": "char",
 	"definition": null,
 	"height": null,
@@ -30670,28 +30571,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"I_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"I_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "I_need_more_time,give_me_time": {
 	"type": "word",
 	"definition": [
@@ -32762,28 +32641,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"J_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"J_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "jackfruit": {
 	"type": "word",
 	"definition": [
@@ -33371,28 +33228,6 @@ BLISSDATA = {
 		"judgement,law_(in_combinations)",
 		"same,equal,equality"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"K_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"K_(letter)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
@@ -34185,17 +34020,6 @@ BLISSDATA = {
 		"star",
 		"moon"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"L_(letter,small)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
@@ -36563,17 +36387,6 @@ BLISSDATA = {
 		"cell",
 		"protection,shelter"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"M_(letter,small)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
@@ -40357,28 +40170,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"N_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"N_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "nag-(to)": {
 	"type": "word",
 	"definition": [
@@ -42418,17 +42209,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"nine_(digit,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "nine_(digit)": {
 	"type": "mod",
 	"definition": null,
@@ -42993,17 +42773,6 @@ BLISSDATA = {
 },
 
 "O_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"O_(letter)": {
 	"type": "char",
 	"definition": null,
 	"height": null,
@@ -44437,28 +44206,6 @@ BLISSDATA = {
 },
 
 "oyster,clam": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"P_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"P_(letter)": {
 	"type": "char",
 	"definition": null,
 	"height": null,
@@ -49298,28 +49045,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"Q_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"Q_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "quality": {
 	"type": "word",
 	"definition": [
@@ -49506,17 +49231,6 @@ BLISSDATA = {
 },
 
 "R_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"R_(letter)": {
 	"type": "char",
 	"definition": null,
 	"height": null,
@@ -52718,17 +52432,6 @@ BLISSDATA = {
 		"linear_thing,pole",
 		"littleness,smallness"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"S_(letter,small)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
@@ -61665,17 +61368,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"T_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "table": {
 	"type": "char",
 	"definition": null,
@@ -65900,17 +65592,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"U_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "ugh,yuk-(exclamatory)": {
 	"type": "word",
 	"definition": [
@@ -66700,28 +66381,6 @@ BLISSDATA = {
 },
 
 "uterus,womb": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"V_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"V_(letter)": {
 	"type": "char",
 	"definition": null,
 	"height": null,
@@ -67654,28 +67313,6 @@ BLISSDATA = {
 		"protection,shelter",
 		"vagina"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"W_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"W_(letter)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
@@ -70116,28 +69753,6 @@ BLISSDATA = {
 	"verified": null
 },
 
-"X_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"X_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "xylophone,vibraphone_(1)": {
 	"type": "word",
 	"definition": [
@@ -70158,28 +69773,6 @@ BLISSDATA = {
 		"percussion_instrument",
 		"keyboard"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"Y_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"Y_(letter)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
@@ -70573,45 +70166,12 @@ BLISSDATA = {
 	"verified": null
 },
 
-"Z_(letter,small)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"Z_(letter)": {
-	"type": "char",
-	"definition": null,
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
 "zebra": {
 	"type": "word",
 	"definition": [
 		"horse",
 		"line,stripe"
 	],
-	"height": null,
-	"width": null,
-	"center": null,
-	"kern": [	],
-	"modified": null,
-	"verified": null
-},
-
-"zero_(digit,small)": {
-	"type": "char",
-	"definition": null,
 	"height": null,
 	"width": null,
 	"center": null,
