@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> 
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>GRASP</title>
+  <link rel="stylesheet" href="grasp.css" type="text/css"></link>
+  <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="lib/Blob.js"></script>
+  <script type="text/javascript" src="lib/FileSaver.js"></script>
+  <script type="text/javascript" src="blissdata.js"></script>
+  <script type="text/javascript" src="blisseditor.js"></script>
+  <style>
+    #load-table { background-color: #FEA }
+    #edit-table { background-color: #CFC }
+    table { width: 100%; border: 2px solid black; padding: 10px; margin-bottom: 10px }
+    th { text-align: right; width: 15ex }
+    td, th { vertical-align: top }
+    .select-symbol { width: 30ex }
+    #export { font-size: 12pt }
+    object { background-color: white }
+    #images, object { vertical-align: middle; font-size: 20pt }
+  </style>
+</head>
+<body>
+
+<h1>Blissdata editor</h1>
+
+<p><input type="button" id="export" value="Download database">
+</p>
+<table id="load-table">
+  <tr>
+    <th>Unmodified: <td><select class="select-symbol" id="unmodified-symbols"></select>
+  </tr><tr>
+    <th>Unverified: <td><select class="select-symbol" id="unverified-symbols"></select>
+  </tr><tr>
+    <th>Verified: <td><select class="select-symbol" id="verified-symbols"></select>
+  </tr>
+</table>
+
+<table id="edit-table">
+  <tr>
+    <th>Symbol:
+      <td><span id="id"></span>
+      <td rowspan="7"><span id="images"></span>
+  </tr><tr>
+    <th><td><input type="button" id="edit-symbol" value="Edit">
+  </tr><tr>
+    <th>Name:
+      <td><input id="name" type="text" size="50">
+  </tr><tr>
+    <th>Type: <td id="radiotypes">
+  </tr><tr>
+    <th>High: <td><input id="high" type="checkbox">
+  </tr><tr>
+    <th>Width: <td><input id="width" type="text" size="10">
+  </tr><tr>
+    <th>Center: <td><input id="center" type="text" size="10">
+  </tr><tr>
+    <th>Definition: <td id="definition-row" colspan="2">
+        <span id="definition-container"></span>
+        <input type="button" id="add-char" value="+">
+  </tr><tr>
+    <th>Kerning: <td id="kern-row" colspan="2">
+        <span id="kern-container"></span>
+        <input type="button" id="add-kern" value="+">
+  </tr><tr>
+    <th>Modified by: <td><input id="modified" type="text" size="30">
+  </tr><tr>
+    <th>Verified by: <td><input id="verified" type="text" size="30">
+  </tr><tr>
+    <th><input type="button" id="cancel-symbol" value="Cancel">
+    <td><input type="button" id="save-symbol" value="Save">
+  </tr>
+</table>
+
+<datalist id="symbolnames">
+</datalist>
+
+<datalist id="symboltypes">
+</datalist>
+
+</html>
