@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> 
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Blissviewer demo</title>
+  <script type="text/javascript" src="blissdata.js"></script>
+  <script type="text/javascript" src="blissviewer.js"></script>
+  <script type="text/javascript">
+    BLISS.config.imgpath = "svg";
+    BLISS.config.imgtype = "svg";
+    function submittext() {
+      var textwords = document.getElementById('textwords').value.split('\n');
+      var blisswords = document.getElementById('blisswords').value
+        .split('\n').map(function(line){return line.match(/\S+/g)});
+      BLISS.config.imgheight = document.getElementById('imgheight').value || 100;
+      var blisstext = document.getElementById('text');
+      blisstext.innerHTML = '';
+      BLISS.show_text(blisstext, blisswords, textwords);
+    }
+    window.onload = submittext;
+  </script>
+  <style>
+    .textword { margin-bottom: 1em }
+  </style>
+</head>
+
+<body>
+<h1>Blissviewer demo</h1>
+
+<table><tr><th>Text words<th>Blisswords</tr>
+<tr><td>
+<textarea id="textwords" cols="50" rows="15">
+Harry Potter
+would have smelled
+some rats
+,
+if 
+they
+hadn't 
+been
+songbirds
+,
+pineapples
+or
+flamingoes
+.
+
+Tarzan
+=
+make-believe-man in jungle
+=
+make-believe-man in forest at equator
+=
+make-believe-man in many-trees at equator
+!
+</textarea>
+<td>
+<textarea id="blisswords" cols="100" rows="15">
+bliss-name  boy,lad  lightning
+metaphor  nose  indicator_(past_conditional)
+rat,rodent,gnawer,gnawing_animal  indicator_(plural)
+comma
+if
+they,them,themselves-(indefinite)
+not,negative,no,don't,doesn't
+existence,being_(2)  indicator_(past_passive)
+songbird,finch,thrush  indicator_(plural)
+comma
+pineapple  indicator_(plural)
+or
+indicator_(combine) goose_(bird) snake indicator_(combine) indicator_(plural) 
+period,point,full_stop,decimal_point
+
+Tarzan
+same,equal,equality
+make-believe_man  tropical_rain_forest,jungle
+same,equal,equality
+make-believe_man  grove  equator
+same,equal,equality
+make-believe_man  group_of,much_of,many_of,quantity_of  tree  equator
+exclamation_mark
+</textarea>
+</tr>
+</table>
+
+<p>Image height: (10) <input id="imgheight" type="range" value="100" min="10" max="200"> (200)
+<p><input type="submit" value="Submit text" onclick="submittext()">
+
+<div id="text">
+</div>
+
+<hr>
+<h3>Things to note</h3>
+<ul>
+<li>"Harry Potter" and "flamingo" are not in the official vocabulary, but are built from basic concepts.
+<li>"Metaphorically smell" is not an official word, but a modified word.
+<li>To be able to use other verb indicators than the standard, you have to use the underlying concept
+("nose" instead of "smell-(to)", "existence,being_(2)" instead of "be,am,are,is,exist-(to)").
+<li>The indicator is attached to the first non-modifier character in a word 
+("metaphor" and "indicator_(combine)" are modifiers).
+<li>The indicator has moved 10px to the right for "smelled" and 5px to the left for "kittens".
+<li>The indicator has moved 20px up for "pineapples", since the pineapple is an extra high character.
+<li>"bird" and "mouth" (in "songbirds"), and "make-believe-man" and "group-of" (in "Tarzan") are kerned (moved 10px closer).
+<li>The spacing between words are full-width, but before punctuation it is half-width space. Between characters it is quarter-width space (except when characters are kerned).
+<li>If you resize the window, the sentence word-wraps.
+<li>"Tarzan" is printed using its basic components, not using the combined picture.
+<li>These things are done automatically in CSS, using the database <a href="blissdata.js">blissdata.js</a>.
+</ul>
+
+<p>By Peter Ljunglöf, 18 October 2013.
+</body>
+</html>
