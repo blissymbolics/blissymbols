@@ -1,23 +1,39 @@
 
 var BLISS = (function(BLISS, DOM){
+
+    // Initializing the 'config' variable
+
     BLISS.config = BLISS.config || {};
+
+    // Exported methods
+
     BLISS.show_text = show_text;
+
+    // Default config values
+
+    var default_imgtype = 'png';
+    var default_imgpath = 'img';
+    var default_imgheight = 100;
+
+    // Private methods
 
     function get_height(percent) {
         if (percent === undefined) percent = 100;
-        var imgheight = BLISS.config.imgheight || 100;
+        var imgheight = BLISS.config.imgheight || default_imgheight;
         return Math.round(percent * imgheight / 100);
     }
 
     function show_image(parent, blisschar) {
-        var path = BLISS.config.imgpath + '/' + blisschar;
-        if (BLISS.config.imgtype == 'svg') {
+        var imgtype = BLISS.config.imgtype || default_imgtype;
+        var path = BLISS.config.imgpath || default_imgpath;
+        path += '/' + blisschar;
+        if (imgtype == 'svg') {
             var img = DOM.createElement('object');
             img.type = 'image/svg+xml';
-            img.data = path + '.svg';
+            img.data = path + '.' + imgtype;
         } else {
             var img = DOM.createElement('img');
-            img.src = path + '.png';
+            img.src = path + '.' + imgtype;
         }
         img.height = get_height();
         img.title = blisschar;
@@ -103,6 +119,9 @@ var BLISS = (function(BLISS, DOM){
         }
 
         if (blissword && blissword.length) {
+            if (typeof(blissword) === 'string') {
+                blissword = [blissword];
+            }
             var data = BLISS.data[blissword[0]];
             if (data && data.type == 'punct') {
                 wg.style.marginLeft = get_height(-20) + 'px';
