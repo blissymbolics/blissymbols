@@ -3,6 +3,7 @@ import sys
 import re
 import os.path
 import glob
+import json
 
 SVGDIR = "svg"
 
@@ -24,10 +25,10 @@ def is_cyclic(data, sym, visited):
 def check_consistency(blissfile):
     with open(blissfile) as F:
         code = F.read()
-    code = re.sub(r' null\b', ' None', code)
-    mod = {}
-    exec(code, mod)
-    data = mod['BLISSDATA']
+    _, _, code = code.partition('BLISS.data =')
+    code, _, _ = code.rpartition('return BLISS')
+    code = code.strip().rstrip(';')
+    data = json.loads(code)
     for sym, info in sorted(data.items()):
         typ, definition, kern, height, width, center, modified, verified = (
             map(info.get, 'type definition kern height width center modified verified'.split()))
@@ -68,9 +69,10 @@ def check_consistency(blissfile):
         if sym not in data:
             error(svgfile, "The SVG file has no corresponding symbol: %r", sym)
 
+
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         check_consistency(sys.argv[1])
     else:
-        print >>sys.stderr, "Usage: ptyhon %s blissdata-file" % (sys.argv[0],)
+        print >>sys.stderr, "Usage: python %s blissdata-file" % (sys.argv[0],)
 
