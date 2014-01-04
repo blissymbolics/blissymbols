@@ -1,13 +1,13 @@
 Blissymbols
 ===========
 
-A database of all official Blissymbols, and their definitions. Plus some additional utilities.
+A database of all official Blissymbols, and their definitions. Plus some additional utilities. Contents:
 
-Contents:
 - `blissdata.js`: this is the most important file, the database itself
-- `blisseditor.html`: this is a very simplistic helper form for updating the database
 - `check_consistency.py`: a Python script that checks `blissdata.js` for obvious inconsistencies
-- `blisseditor.js`, `lib/*.js`: utility files for `blisseditor.html`
+- `blisseditor.py`: this is a very simplistic web server for editing the database
+  - `blisseditor.html`: the web form for editing the database
+  - `blisseditor.js`, `lib/*.js`: utility files for `blisseditor.html`
 - `svg/*.svg`: more than 5000 SVG files
 - `blissviewer.js`: a generic Javascript module for attaching Blissymbols to text
 - `blissviewer-demo.html`: a simple webpage that shows how `blissviewer.js` can be used
@@ -107,15 +107,18 @@ The function can be configured by setting the following variables:
 - `BLISS.config.imgheight`: The height of the Blissymbol matrix square (R4.3) in pixels. Default value: 100.
 
 
-blisseditor.html
-----------------
+blisseditor.py
+--------------
 
-When you use the blisseditor, all changes are done locally inside the browser. 
-The original database file ***is not*** updated automatically, even if you "save".
+The blisseditor is a very simple webserver written in Python. To use it you need to have Python installed (which is already done in Mac and Linux), and you need the Firefox browser (it's the only one I've tested).
 
-To get the changes on your own computer, you have to press "Download database" and 
-then replace your database file with the downloaded file. 
-Be sure to check that the file is consistent before replacing.
+Start the webserver by running this from the commandline:
+
+    python blisseditor.py
+
+It will respond by telling you to open a local URL in Firefox. Do that. 
+
+Now you can edit the database in the web form. Whenever you "save" a modification, it is saved into the database file (`blissdata.js`). 
 
 Finally, to get your changes into the official list, you have to fork this repository 
 and issue a pull request whenever you have made your changes.
