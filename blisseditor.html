@@ -3,10 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>GRASP</title>
-  <link rel="stylesheet" href="grasp.css" type="text/css"></link>
   <script type="text/javascript" src="lib/jquery-1.10.2.min.js"></script>
-  <script type="text/javascript" src="lib/Blob.js"></script>
-  <script type="text/javascript" src="lib/FileSaver.js"></script>
   <script type="text/javascript" src="blissdata.js"></script>
   <script type="text/javascript" src="blisseditor.js"></script>
   <style>
@@ -25,8 +22,6 @@
 
 <h1>Blissdata editor</h1>
 
-<p><input type="button" id="export" value="Download database">
-</p>
 <table id="load-table">
   <tr>
     <th>Unmodified: <td><select class="select-symbol" id="unmodified-symbols"></select>
@@ -49,18 +44,18 @@
       <td><input id="name" type="text" size="50">
   </tr><tr>
     <th>Type: <td id="radiotypes">
-  </tr><tr>
+  </tr><tr id="height-row">
     <th>High: <td><input id="high" type="checkbox">
-  </tr><tr>
+  </tr><tr id="width-row">
     <th>Width: <td><input id="width" type="text" size="10">
-  </tr><tr>
+  </tr><tr id="center-row">
     <th>Center: <td><input id="center" type="text" size="10">
-  </tr><tr>
-    <th>Definition: <td id="definition-row" colspan="2">
+  </tr><tr id="definition-row">
+    <th>Definition: <td colspan="2">
         <span id="definition-container"></span>
         <input type="button" id="add-char" value="+">
-  </tr><tr>
-    <th>Kerning: <td id="kern-row" colspan="2">
+  </tr><tr id="kern-row">
+    <th>Kerning: <td colspan="2">
         <span id="kern-container"></span>
         <input type="button" id="add-kern" value="+">
   </tr><tr>

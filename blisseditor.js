@@ -17,7 +17,6 @@ $(function(){
     $('#save-symbol').click(save_symbol);
     $('#add-char').click(add_character);
     $('#add-kern').click(add_kern);
-    $('#export').click(export_blissdata);
 
     $('#edit-table select').prop('disabled', true);
     $('#load-table input').prop('disabled', true);
@@ -54,11 +53,18 @@ $(function(){
     }
 
     function update_info() {
+        toggle_visible_fields();
+        var id = $('#id').text();
+        show_images(id);
+    }
+
+    function toggle_visible_fields() {
         var typ = $('input[name=type]:checked').val();
         $('#definition-row').toggle(typ == 'word');
         $('#kern-row').toggle(typ == 'char' || typ == 'mod');
-        var id = $('#id').text();
-        show_images(id);
+        $('#height-row').toggle(typ == 'char');
+        $('#width-row').toggle(typ == 'char' || typ == 'ind');
+        $('#center-row').toggle(typ == 'char' || typ == 'ind');
     }
 
     function toggle_editor(enabled) {
@@ -138,8 +144,7 @@ $(function(){
         $('.type').each(function(){
             $(this).prop('checked', $(this).val() == typ);
         });
-        $('#definition-row').toggle(typ == 'word');
-        $('#kern-row').toggle(typ == 'char' || typ == 'mod');
+        toggle_visible_fields();
 
         update_info();
         toggle_editor(false);
@@ -166,8 +171,9 @@ $(function(){
             for (var i = 0; i < defs.length; i++) {
                 var val = defs[i].value;
                 if (val && !BLISS.data[val]) {
-                    alert('"' + val + '" does not exist!');
-                    return;
+                    var ok = confirm('"' + val + '" does not exist!\n' + 
+                                     'Do you still want to save your changes?');
+                    if (!ok) return;
                 }
                 // TODO: check for recursion
             }
@@ -178,7 +184,8 @@ $(function(){
             return;
         }
 
-        var ok = confirm("Are you sure about these changes?");
+        var ok = confirm("Are you sure about these changes?\n" + 
+                         "(The data file will be overwritten)");
         if (!ok) return;
         var repopulate = false;
 
@@ -217,9 +224,18 @@ $(function(){
             id = newid;
         }
 
-        BLISS.data[id].center = $('#center').val();
-        BLISS.data[id].width = $('#width').val();
-        BLISS.data[id].height = $('#high').prop('checked') ? 'high' : null;
+        if (typ == 'char' || typ == 'ind') {
+            BLISS.data[id].center = $('#center').val();
+            BLISS.data[id].width = $('#width').val();
+        } else {
+            delete BLISS.data[id].center;
+            delete BLISS.data[id].width;
+        }
+        if (typ == 'char') {
+            BLISS.data[id].height = $('#high').prop('checked') ? 'high' : null;
+        } else {
+            delete BLISS.data[id].height;
+        }
 
         if (Boolean(BLISS.data[id].modified) != Boolean($('#modified').val())) {
             BLISS.data[id].modified = $('#modified').val();
@@ -243,16 +259,21 @@ $(function(){
             delete BLISS.data[id].definition;
         }
 
-        BLISS.data[id].kern = [];
-        var kern = $('.kern');
-        for (var i = 0; i < kern.length; i++) {
-            var val = kern[i].value;
-            if (val) {
-                BLISS.data[id].kern.push(val);
+        if (typ == 'char' || typ == 'mod') {
+            BLISS.data[id].kern = [];
+            var kern = $('.kern');
+            for (var i = 0; i < kern.length; i++) {
+                var val = kern[i].value;
+                if (val) {
+                    BLISS.data[id].kern.push(val);
+                }
             }
+        } else {
+            delete BLISS.data[id].kern;
         }
 
         console.log(id + " := " + JSON.stringify(BLISS.data[id]));
+        export_blissdata();
 
         show_images(id);
         toggle_editor(false);
@@ -264,41 +285,64 @@ $(function(){
 
     function export_blissdata() {
         var out = stringify_blissdata();
-        var blob = new Blob([out], {type: "text/javascript;charset=utf-8"});
-        saveAs(blob, "blissdata.js");
+        var request = new XMLHttpRequest();
+        try {
+            request.open('POST', 'http://localhost:8000/blissdata.js', false);  
+            // `false` makes the request synchronous
+            var blob = new Blob([out], {type: "text/javascript;charset=utf-8"});
+            request.send(blob);
+        } catch(err) {
+            console.log('HTTP Request failure:\n' + err);
+            alert('HTTP Request failure:\n' + err);
+            return;
+        }
+        if (request.status === 200) {
+            console.log('OK, blissdata saved!');
+            alert('OK, blissdata saved!\n' + 
+                  "Don't forget to commit your changes to the GIT repository!");
+        } else {
+            console.log('Error saving data: Response status ' + request.status);
+            alert('Error saving data: Response status ' + request.status);
+        }
     }
 
     // we print the database in sorted order, so that changes are easier to follow
     function stringify_blissdata() {
-        function stringify_row(key, value) { 
-            if (value === undefined) value = null;
-            var str = '\t\t\t' + JSON.stringify(key) + ': ' + JSON.stringify(value, null, '\t\t\t\t') + ',';
-            return str.replace('\n]', '\n\t\t\t]');
-        }
-
         var lines = ['// Auto-generated by blisseditor.js',
                      'var BLISS = (function(BLISS){',
                      '\tBLISS.data = {',
                      ''];
+
+        function push_datarow(key, value, enabled) { 
+            if (enabled !== undefined) {
+                if (!enabled) return;
+                if (!value) return;
+                if (typeof value === "object" && Object.keys(value).length === 0) return;
+            }
+            var str = '\t\t\t' + JSON.stringify(key) + ': ' + JSON.stringify(value, null, '\t\t\t\t') + ',';
+            // JSON.stringify doesn't indent the final ']', so we have to do it manually:
+            lines.push(str.replace('\n]', '\n\t\t\t]'));
+        }
+
         var keys = sorted_symbols();
         for (var i=0; i < keys.length; i++) {
             var id = keys[i];
             var data = BLISS.data[id];
-            lines.push('\t\t' + JSON.stringify(id) + ': {',
-                       stringify_row('type', data.type),
-                       stringify_row('definition', data.definition),
-                       stringify_row('height', data.height),
-                       stringify_row('width', data.width),
-                       stringify_row('center', data.center),
-                       stringify_row('kern', data.kern),
-                       stringify_row('modified', data.modified),
-                       stringify_row('verified', data.verified),
-                       '\t\t},',
-                       '');
+            var typ = data.type;
+            lines.push('\t\t' + JSON.stringify(id) + ': {');
+            push_datarow('type', typ);
+            push_datarow('definition', data.definition, typ == 'word');
+            push_datarow('height', data.height, typ == 'char');
+            push_datarow('width', data.width, typ == 'char' || typ == 'ind');
+            push_datarow('center', data.center, typ == 'char' || typ == 'ind');
+            push_datarow('kern', data.kern, typ == 'char' || typ == 'mod');
+            push_datarow('modified', data.modified);
+            push_datarow('verified', data.verified);
+            lines.push('\t\t},', '');
         }
-        lines.push('\t};',
-                   '\treturn BLISS;',
-                   '}(BLISS || {}));');
+        lines.push('\t};');
+        lines.push('\treturn BLISS;');
+        lines.push('}(BLISS || {}));');
 
         var str = lines.join('\n') + '\n';
         // remove "," before "]" or "}":
