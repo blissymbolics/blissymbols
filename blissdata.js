@@ -14091,6 +14091,12 @@ var BLISS = (function(BLISS){
 			"verified": null
 		},
 
+		"evaluation,value-(half_size)": {
+			"type": "char",
+			"modified": null,
+			"verified": null
+		},
+
 		"evangelise_(christian)-(to)": {
 			"type": "word",
 			"definition": [
