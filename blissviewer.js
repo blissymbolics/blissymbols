@@ -7,133 +7,357 @@ var BLISS = (function(BLISS, DOM){
 
     // Exported methods
 
-    BLISS.show_text = show_text;
+    BLISS.add_blissvg = add_blissvg;
+    BLISS.add_blissword = add_blissword;
+    BLISS.add_blisstext = add_blisstext;
+    BLISS.add_blisswords_to_class = add_blisswords_to_class;
 
     // Default config values
 
-    var default_imgtype = 'png';
-    var default_imgpath = 'img';
-    var default_imgheight = 100;
+    var default_margin = 8; // ...to make room for a stroke width of 8
+
+    // Private constants
+
+    var BLISSQUARE = 128;
+    var BLISSHEIGHT = BLISSQUARE * 5/2;
+    var BLISSQSPACE = BLISSQUARE / 4;
+    var GRIDSIZE = BLISSQUARE / 2;
+    var DOT_RADIUS = 4;
+
+    // SVG information
+
+    var SVG_START = ('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="true" ' + 
+                     'class="bliss-svg" viewBox="{x} {y} {w} {h}"><g>');
+    var SVG_END = '</g></svg>';
+
+    var SVG_ELEMS = {
+        'dot':    '<circle class="bliss-disc" cx="{x}" cy="{y}" r="' + DOT_RADIUS + '"/>',
+        'disc':   '<circle class="bliss-disc" cx="{x}" cy="{y}" r="{r}"/>',
+        'circle': '<circle class="bliss-line" cx="{x}" cy="{y}" r="{r}"/>',
+        'text':   '<text class="bliss-text" text-anchor="middle" x="{x}" y="{y}" style="font-size:{fontsize}">{text}</text>',
+        'line':   '<line class="bliss-line" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>',
+        'arc':    '<path class="bliss-line" d="M {x1},{y1} A {r},{r} 0 0,0 {x2},{y2}"/>',
+        'bigarc': '<path class="bliss-line" d="M {x1},{y1} A {r},{r} 0 1,0 {x2},{y2}"/>',
+        'grid':   '<line class="bliss-grid-{grid}" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>',
+    }
+
+    // TODO: These should be added to blissdata.js instead of being hard-coded here:
+
+    var MODIFIERS = {
+        'a,an,any': true,
+        'ago,then_(past)': true,
+        'belongs_to,of_(possessive)': true,
+        'bliss-name': true,
+        'comparative_more': true,
+        'dot': true,
+        'generalization': true,
+        'group_of,much_of,many_of,quantity_of': true,
+        'indicator_(combine)': true,
+        'intensity': true,
+        'line,stripe': true,
+        'metaphor': true,
+        'minus,no,without': true,
+        'more': true,
+        'most,maximum': true,
+        'now': true,
+        'opposite_meaning,opposite_of,opposite': true,
+        'part,bit,piece,portion,part_of': true,
+        'superlative_most': true,
+        'then,so,later': true,
+    };
+
+    var PUNCTUATIONS = {
+        'comma': true,
+        'period,point,full_stop,decimal_point': true,
+        'question_mark': true,
+        'exclamation_mark': true,
+    };
+
+    // Private predicates
+
+    function is_modifier(mod) {
+        return MODIFIERS[mod];
+    }
+
+    function is_digit(dig) {
+        return dig.slice(-7) == '(digit)';
+    }
+
+    function is_letter(letter) {
+        var suffix = letter.slice(-11);
+        return suffix == '(uppercase)' || suffix == '(lowercase)';
+    }
+
+    function is_punctuation(punct) {
+        return PUNCTUATIONS[punct];
+    }
+
+    function is_indicator(ind) {
+        return ind.slice(0, 10) == 'indicator_' && !MODIFIERS[ind];
+    }
 
     // Private methods
 
-    function get_height(percent) {
-        if (percent === undefined) percent = 100;
-        var imgheight = BLISS.config.imgheight || default_imgheight;
-        return Math.round(percent * imgheight / 100);
+    function get_data(id) {
+        var data = BLISS.data.SHAPES[id];
+        if (data) return data;
+        data = BLISS.data.CHARS[id];
+        if (data) return data;
+        return BLISS.data.WORDS[id];
     }
 
-    function show_image(parent, blisschar) {
-        var imgtype = BLISS.config.imgtype || default_imgtype;
-        var path = BLISS.config.imgpath || default_imgpath;
-        path += '/' + blisschar;
-        if (imgtype == 'svg') {
-            var img = DOM.createElement('object');
-            img.type = 'image/svg+xml';
-            img.data = path + '.' + imgtype;
+    function format(str, args) {
+        return str.replace(/\{(\w+)\}/g, function(m, p){
+            return p in args ? args[p] : m;
+        });
+    }
+
+    function to_svg_grid(dim, grid) {
+        var svg = "";
+        var margin = BLISS.config.margin || default_margin;
+
+        var left = dim.left - margin, right = dim.right + margin;
+        var top = dim.top - margin, bottom = dim.bottom + margin;
+        var istart = Math.floor(grid * left / GRIDSIZE);
+        var istop = Math.ceil(grid * Math.max(right, bottom) / GRIDSIZE);
+        for (var i = istart; i <= istop; i++) {
+            var xy = GRIDSIZE * i / grid;
+            var gridtype = (i % grid) ? 'minor' : 'major';
+            if (xy <= right) {
+                svg += format(SVG_ELEMS['grid'], {grid:gridtype, x1:xy, x2:xy, y1:top, y2:bottom});
+            }
+            if (xy <= bottom) {
+                svg += format(SVG_ELEMS['grid'], {grid:gridtype, x1:left, x2:right, y1:xy, y2:xy});
+            }
+        }
+        return svg;
+    }
+
+    function to_svg_obj(x, y, obj) {
+        if (typeof obj == "string") {
+            return to_svg_obj(x, y, get_data(obj));
+
+        } else if (obj instanceof Array) {
+            var svg = "";
+            for (var i=0; i<obj.length; i++) {
+                svg += to_svg_obj(x, y, obj[i]);
+            }
+            return svg;
+
+        } else if ('d' in obj) {
+            if (obj.x) x += obj.x;
+            if (obj.y) y += obj.y;
+            return to_svg_obj(x, y, obj.d);
+
         } else {
-            var img = DOM.createElement('img');
-            img.src = path + '.' + imgtype;
+            var clone = {};
+            for (var k in obj) {
+                if (obj.hasOwnProperty(k)) {
+                    if (k[0] == 'x') {
+                        clone[k] = obj[k] + x;
+                    } else if (k[0] == 'y') {
+                        clone[k] = obj[k] + y;
+                    } else {
+                        clone[k] = obj[k];
+                    }
+                }
+            }
+            if (clone.form == 'text') {
+                clone.x += clone.w / 2; // center align text
+                clone.y += clone.h     // SVG text has inverted coordinate system...
+            }
+            return format(SVG_ELEMS[clone.form], clone);
         }
-        img.height = get_height();
-        img.title = blisschar;
-        parent.appendChild(img);
     }
 
-    function show_chars(parent, blisschars) {
-        var main_chr_ind, prev, chr;
-        var agenda = blisschars.slice();
-        while (chr = agenda.shift()) {
-            var data = BLISS.data[chr];
-            if (!data) {
-                continue;
+
+    function expand_word(word) {
+        if (typeof(word) == 'string') {
+            word = [word];
+        }
+        var groups_inds = expand_list(word, []);
+        var groups = groups_inds.groups, inds = groups_inds.inds;
+        if (inds.length) {
+            console.error("Inds left:", word, "-->", groups, "/", inds);
+        }
+        // console.log(word, JSON.stringify(groups));
+
+        var chars = [];
+        var x = 0, left = 0, right = 0, prev = null;
+        for (var g=0; g<groups.length; g++) {
+            var ch = groups[g].ch;
+            var inds = groups[g].inds;
+            var w = BLISS.data.CHARS[ch].w;
+            x += calculate_spacing(prev, ch);
+            chars.push({x:x, y:0, d:ch});
+            // console.log(x, ch, JSON.stringify(chars));
+
+            if (inds.length) {
+                var iw = (inds.length - 1) * BLISSQSPACE / 2;
+                for (var i=0; i<inds.length; i++) {
+                    var ind = inds[i];
+                    iw += BLISS.data.CHARS[ind].w;
+                    if (ind in BLISS.data.CENTER) {
+                        iw += 2 * BLISS.data.CENTER[ind];
+                    }
+                }
+                var ix = x + (w - iw) / 2;
+                if (ch in BLISS.data.CENTER) {
+                    ix += BLISS.data.CENTER[ch];
+                }
+                left = Math.min(left, ix);
+                var iy = Math.min(0, -32 * (BLISS.data.CHARS[ch].h - 3));
+                for (var i=0; i<inds.length; i++) {
+                    var ind = inds[i];
+                    if (i > 0) ix += BLISSQSPACE / 2;
+                    chars.push({x:ix, y:iy, d:ind});
+                    ix += BLISS.data.CHARS[ind].w;
+                }
+                right = Math.max(right, ix);
             }
-            if (data.type == 'word') {
-                Array.prototype.unshift.apply(agenda, data.definition);
-            } else if (data.type == 'ind' && main_chr_ind) {
-                show_image(main_chr_ind, chr);
+            x += w;
+            prev = ch;
+        }
+        right = Math.max(right, x);
+        return {top:0, bottom:BLISSHEIGHT, left:left, right:right, chars:chars};
+    }
+
+    function expand_list(words, inds) {
+        var chars = [];
+        for (var n=0; n<words.length; n++) {
+            var w = words[n];
+            if (is_indicator(w) && chars.length) {
+                var prev_inds = chars[chars.length-1].inds;
+                prev_inds.push.apply(prev_inds, inds);
+                prev_inds.push(w);
+                inds = [];
+            } else if (is_modifier(w) || is_punctuation(w) || (n == 0 && is_digit(w))) {
+                chars.push({ch:w, inds:[]});
             } else {
-                var cg = DOM.createElement('span');
-                cg.style.display = 'inline-block';
-                cg.style.margin = '0 ' + get_height(5) + 'px';
-                cg.style.verticalAlign = 'bottom';
-                parent.appendChild(cg);
-
-                if (!main_chr_ind && data.type == 'char') {
-                    main_chr_ind = DOM.createElement('span');
-                    main_chr_ind.style.position = 'relative';
-                    main_chr_ind.style.height = 0;
-                    main_chr_ind.style.left = 0;
-                    main_chr_ind.style.top = 0;
-                    main_chr_ind.style.display = 'block'
-                    main_chr_ind.style.textAlign = 'center';
-                    cg.appendChild(main_chr_ind);
-
-                    if (data.height == 'high') {
-                        main_chr_ind.style.top = get_height(-20);
-                    }
-                    if (data.center) {
-                        main_chr_ind.style.left = get_height(data.center) + 'px';
-                    }
-                }
-
-                var bc = DOM.createElement('span');
-                bc.style.display = 'block';
-                bc.style.textAlign = 'center';
-                cg.appendChild(bc);
-
-                show_image(bc, chr);
-                var kern = BLISS.data[prev] && BLISS.data[prev].kern;
-                if (kern && kern[chr] || kern && kern.indexOf && kern.indexOf(chr) >= 0) {
-                    cg.style.marginLeft = get_height(-10) + 'px';
-                    // kerning for digits: -5px
-                }
-                prev = chr;
+                chars.push({ch:w, inds:inds});
+                inds = [];
             }
+        }
+        var groups = [];
+        var new_inds = [];
+        for (var n=0; n<chars.length; n++) {
+            var ch = chars[n].ch, cinds = chars[n].inds;
+            if (ch in BLISS.data.WORDS) {
+                var new_groups_inds = expand_list(BLISS.data.WORDS[ch], new_inds.concat(cinds));
+                groups.push.apply(groups, new_groups_inds.groups);
+                new_inds = new_groups_inds.inds;
+            } else {
+                if (! (ch in BLISS.data.CHARS)) {
+                    console.error("Unknown character:", ch);
+                    ch = 'question_mark';
+                }
+                groups.push({ch:ch, inds:new_inds.concat(cinds)});
+                new_inds = [];
+            }
+        }
+        return {groups:groups, inds:new_inds.concat(inds)};
+    }
+
+    function calculate_spacing(prev, current) {
+        if (!prev) {
+            return 0;
+        } else if (kerning_possible(prev, current)) {
+            return 0;
+        } else if (is_digit(prev) && is_digit(current)) {
+            return BLISSQSPACE / 2;
+        } else if (is_letter(prev) && is_letter(current)) {
+            return BLISSQSPACE / 2;
+        } else if (current == 'comma') {
+            return BLISSQSPACE * 3/4;
+        } else {
+            return BLISSQSPACE;
         }
     }
 
-    function show_word(parent, blissword, textword) {
-        var wg = DOM.createElement('span');
-        wg.style.display = 'inline-block';
-        parent.appendChild(wg);
+    var DEFAULT_KERNING = {1:2, 2:6, 3:14, 4:14, 5:14, 6:12};
+    // ... == 1 << Math.min(4, 1 + height) - 2;
+    // ... == sum(2**h for h in range(1, min(4, 1 + height)))
+    // ... == {1: 2**1 == 2**2-2 == 2, 2: 2**1+2**2 == 2**3-2 == 6, 3..5: 2**1+2**2+2**3 == 2**4-2 == 14}
+    // exception: 6 == indicator == 1100
 
-        var bw = DOM.createElement('span');
-        bw.className = 'blissword';
-        bw.style.display = 'block';
-        bw.style.textAlign = 'center';
-        bw.style.margin = '0 ' + get_height(15) + 'px';
-        wg.appendChild(bw);
+    function kerning_possible(prev, current) {
+        if (BLISS.data.CHARS[prev].w <= 24 || BLISS.data.CHARS[current].w <= 24) {
+            return false;
+        }
+        var right = BLISS.data['KERNING-RIGHT'][prev];
+        if (!right) {
+            right = DEFAULT_KERNING[BLISS.data.CHARS[prev].h];
+        }
+        var left = BLISS.data['KERNING-LEFT'][current];
+        if (!left) {
+            left = DEFAULT_KERNING[BLISS.data.CHARS[current].h];
+        }
+        // console.log(prev, current, right, left, right & left, (right & left) == 0);
+        return (right & left) == 0;
+    }
+
+
+    function add_blissvg(parent, blissword, grid) {
+        var exp = expand_word(blissword);
+        // console.log(blissword, JSON.stringify(exp));
+        var margin = BLISS.config.margin || default_margin;
+
+        var svg = format(SVG_START, {x: exp.left - margin, 
+                                     y: exp.top - margin, 
+                                     w: exp.right - exp.left + 2*margin, 
+                                     h: exp.bottom - exp.top + 2*margin});
+        if (grid) {
+            svg += to_svg_grid(exp, grid);
+        }
+        svg += to_svg_obj(0, 0, exp.chars);
+        svg += SVG_END;
+        parent.innerHTML += svg;
+    }
+
+    function add_blissword(parent, blissword, textword, grid) {
+        var bliss_elem = DOM.createElement('span');
+        bliss_elem.className = 'bliss-symbol';
+        parent.appendChild(bliss_elem);
 
         if (textword !== undefined) {
-            var tw = DOM.createElement('span');
-            tw.className = 'textword';
-            tw.style.display = 'block';
-            tw.style.textAlign = 'center';
+            var text_elem = DOM.createElement('span');
+            text_elem.className = 'bliss-caption';
             if (textword && /\S/.test(textword)) {
-                tw.textContent = textword;
+                text_elem.textContent = textword;
             } else {
-                tw.innerHTML = '&nbsp;';
+                text_elem.innerHTML = '&nbsp;';
             }
-            wg.appendChild(tw);
+            parent.appendChild(text_elem);
         }
 
         if (blissword && blissword.length) {
-            if (typeof(blissword) === 'string') {
-                blissword = [blissword];
+            var first = first instanceof Array ? blissword[0] : blissword;
+            if (is_punctuation(first)) {
+                parent.className += ' bliss-punctuation';
             }
-            var data = BLISS.data[blissword[0]];
-            if (data && data.type == 'punct') {
-                wg.style.marginLeft = get_height(-20) + 'px';
-            }
-            show_chars(bw, blissword);
+            add_blissvg(bliss_elem, blissword, grid);
         }
     }
 
-    function show_text(parent, blisswords, textwords) {
+    function add_blisstext(parent, blisswords, textwords, grid) {
         for (var i = 0; i < blisswords.length; i++) {
             var textwd = textwords && (textwords[i] || '');
-            show_word(parent, blisswords[i], textwd);
+            add_blissword(parent, blisswords[i], textwd, grid);
+        }
+    }
+
+    var BLISSWORD_IS_ADDED = " ___BLISSWORD_IS_ALREADY_ADDED___";
+    function add_blisswords_to_class(cls, grid) {
+        var elements = DOM.getElementsByClassName(cls);
+        for (var i=0; i<elements.length; i++) {
+            var elem = elements[i];
+            if (elem.className.indexOf(BLISSWORD_IS_ADDED) < 0) {
+                var title = elem.title.trim().split(/\s+/);
+                var text = elem.textContent;
+                elem.textContent = "";
+                add_blissword(elem, title, text, grid);
+                elem.className += BLISSWORD_IS_ADDED;
+            }
         }
     }
 

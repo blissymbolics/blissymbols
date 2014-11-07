@@ -1,0 +1,68 @@
+
+/* These are just examples of what you can do 
+   to enhance the text associated with a Blissymbol: 
+*/
+
+.bliss-caption { 
+    /* font-weight: bold; */
+    /* font-style: italic; */
+    /* text-decoration: underline; */
+    /* color: blue; */
+} 
+
+/* Spacing and sizing:
+   The left-/right-margins for .bliss elements should be
+   1/5 of the height of .bliss-svg, and the left-margin 
+   of .bliss-punctuation should be -1/10 of the height.
+*/
+
+.bliss { margin: 1ex 2ex 0 2ex }
+.bliss-punctuation { margin-left: -1ex }
+svg.bliss-svg { height: 10ex }
+
+
+/* This is for positioning the Blissymbols directly above the text: */
+
+.bliss { display: inline-block }
+.bliss-symbol, .bliss-caption { display: block; text-align: center }
+
+
+/* Properties of SVG elements: */
+
+svg .bliss-line, svg .bliss-disc { 
+    stroke: black; 
+    stroke-linejoin: round; 
+    stroke-linecap: round; 
+    stroke-width: 8;
+}
+
+svg .bliss-line { 
+    fill: none;
+}
+
+svg .bliss-disc { 
+    fill: black;
+}
+
+svg .bliss-text { 
+    font-family: "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+}
+
+svg .bliss-grid-minor { 
+    fill: none;
+    stroke-width: 1;
+    stroke: #ccc;
+    stroke-dasharray: 2,4;
+}
+
+svg .bliss-grid-major {
+    fill: none;
+    stroke-width: 2;
+    stroke: #ccc;
+}
+
+
+/* Can be used for debugging: */
+
+/* .bliss { background-color: yellow } */
+/* .bliss-symbol { border: 1px solid blue } */

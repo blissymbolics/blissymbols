@@ -2,95 +2,55 @@
 <html> 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Blissviewer demo</title>
+  <title>Blissviewer demonstration</title>
   <script type="text/javascript" src="blissdata.js"></script>
   <script type="text/javascript" src="blissviewer.js"></script>
-  <script type="text/javascript">
-    BLISS.config.imgpath = "svg";
-    BLISS.config.imgtype = "svg";
-    function submittext() {
-      var textwords = document.getElementById('textwords').value.split('\n');
-      var blisswords = document.getElementById('blisswords').value
-        .split('\n').map(function(line){return line.match(/\S+/g)});
-      BLISS.config.imgheight = document.getElementById('imgheight').value || 100;
-      var blisstext = document.getElementById('text');
-      blisstext.innerHTML = '';
-      BLISS.show_text(blisstext, blisswords, textwords);
-    }
-    window.onload = submittext;
-  </script>
+  <script type="text/javascript" src="lib/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="blissdemo.js"></script>
+  <link rel="stylesheet" href="blissviewer.css">
   <style>
-    .textword { margin-bottom: 1em }
+    body { font-family: sans-serif; font-size: 14px; background-color: #ccc; margin: 14px }
+    #textoutput > p { background-color: white; margin: 14px 0; padding: 14px 0 }
+    textarea { font-family: monospace; font-size: 12px }
+    table { width: 100% }
+    tr { vertical-align: top }
+    hr { margin: 56px -14px 14px -14px }
   </style>
 </head>
 
 <body>
-<h1>Blissviewer demo</h1>
+<p style="float:right">By <a href="http://www.cse.chalmers.se/~peb/">Peter Ljunglöf</a>, 2013-2014</p>
+<h1>
+  <span class="bliss" title="Bliss,Bliss_language,Blissymbolics eye indicator_(description)">Bliss-viewer</span>
+  <span class="bliss" title="cause observation">demonstration</span>
+</h1>
 
-<table><tr><th>Text words<th>Blisswords</tr>
-<tr><td>
-<textarea id="textwords" cols="50" rows="15">
-Harry Potter
-would have smelled
-some rats
-,
-if 
-they
-hadn't 
-been
-songbirds
-,
-pineapples
-or
-flamingoes
-.
+<form id="blissform" onsubmit="return false" onchange="change_appearance()">
+<table><tr>
+<td><b>Grid:</b>
+<input type="radio" name="grid" id="no-grid" checked> No
+<input type="radio" name="grid" id="sparse-grid"> Sparse
+<input type="radio" name="grid" id="dense-grid"> Dense
 
-Tarzan
-=
-make-believe-man in jungle
-=
-make-believe-man in forest at equator
-=
-make-believe-man in many-trees at equator
-!
-</textarea>
-<td>
-<textarea id="blisswords" cols="100" rows="15">
-bliss-name  boy,lad  lightning
-metaphor  nose  indicator_(past_conditional)
-rat,rodent,gnawer,gnawing_animal  indicator_(plural)
-comma
-if
-they,them,themselves-(indefinite)
-not,negative,no,don't,doesn't
-existence,being_(2)  indicator_(past_passive)
-songbird,finch,thrush  indicator_(plural)
-comma
-pineapple  indicator_(plural)
-or
-indicator_(combine) goose_(bird) snake indicator_(combine) indicator_(plural) 
-period,point,full_stop,decimal_point
+<td  style="text-align:center"><b>Symbol size:</b>
+<input type="range" name="symbolsize" id="symbolsize" min="5" max="40" value="10" 
+       oninput="this.form.viewsymbolsize.value = this.valueAsNumber">
+<output name="viewsymbolsize" for="symbolsize">10</output> ex
 
-Tarzan
-same,equal,equality
-make-believe_man  tropical_rain_forest,jungle
-same,equal,equality
-make-believe_man  grove  equator
-same,equal,equality
-make-believe_man  group_of,much_of,many_of,quantity_of  tree  equator
-exclamation_mark
-</textarea>
-</tr>
-</table>
+<td style="text-align:right"><b>Font size:</b>
+<input type="range" name="fontsize" id="fontsize" min="8" max="24" value="14" 
+       oninput="this.form.viewfontsize.value = this.valueAsNumber">
+<output name="viewfontsize" for="fontsize">14</output> px
+</tr></table>
+</form>
 
-<p>Image height: (10) <input id="imgheight" type="range" value="100" min="10" max="200"> (200)
-<p><input type="submit" value="Submit text" onclick="submittext()">
-
-<div id="text">
-</div>
+<div id="textoutput"></div>
 
 <hr>
-<h3>Things to note</h3>
+
+<table><tr>
+<td>
+<h3>Things to note:</h3>
 <ul>
 <li>"Harry Potter" and "flamingo" are not in the official vocabulary, but are built from basic concepts.
 <li>"Metaphorically smell" is not an official word, but a modified word.
@@ -98,15 +58,53 @@ exclamation_mark
 ("nose" instead of "smell-(to)", "existence,being_(2)" instead of "be,am,are,is,exist-(to)").
 <li>The indicator is attached to the first non-modifier character in a word 
 ("metaphor" and "indicator_(combine)" are modifiers).
-<li>The indicator has moved 10px to the right for "smelled" and 5px to the left for "kittens".
+<li>The plural indicator has moved to the left for "feet", since it is not a symmetric character.
 <li>The indicator has moved 20px up for "pineapples", since the pineapple is an extra high character.
-<li>"bird" and "mouth" (in "songbirds"), and "make-believe-man" and "group-of" (in "Tarzan") are kerned (moved 10px closer).
+<li>"bird" and "mouth" (in "songbirds"), and "make-believe_man" and "group-of" (in "Tarzan") are kerned (moved 10px closer).
 <li>The spacing between words are full-width, but before punctuation it is half-width space. Between characters it is quarter-width space (except when characters are kerned).
 <li>If you resize the window, the sentence word-wraps.
-<li>"Tarzan" is printed using its basic components, not using the combined picture.
-<li>These things are done automatically in CSS, using the database <a href="blissdata.js">blissdata.js</a>.
+<li>Everything is in SVG!
 </ul>
 
-<p>By Peter Ljunglöf, 18 October 2013.
+<td>
+<textarea id="textinput" cols="80" rows="20">
+Harry Potter  ::  bliss-name  boy,lad  lightning
+would have smelled  ::  metaphor  nose  indicator_(past_conditional)
+some rats  ::  rat,rodent,gnawer,gnawing_animal  indicator_(plural)
+,  ::  comma
+if  ::  if
+they  ::  they,them,themselves-(indefinite)
+hadn't  ::  not,negative,no,don't,doesn't
+been  ::  existence,being_(2)  indicator_(past_passive)
+songbirds  ::  songbird,finch,thrush  indicator_(plural)
+,  ::  comma
+pineapples  ::  pineapple  indicator_(plural)
+,  ::  comma
+flamingoes  ::  indicator_(combine) goose_(bird) indicator_(plural) snake indicator_(combine) 
+or  ::  or
+feet  ::  foot indicator_(plural)
+.  ::  period,point,full_stop,decimal_point
+
+Tarzan  ::  Tarzan
+=  ::  same,equal,equality
+make-believe_man  ::  make-believe_man  
+jungle  ::  tropical_rain_forest,jungle
+is a  ::  same,equal,equality
+make-believe_man  ::  make-believe_man
+grove ::  grove
+equator  ::  equator
+=  ::  same,equal,equality
+make-believe_man  ::  make-believe_man
+many  ::  group_of,much_of,many_of,quantity_of
+tree  ::  tree
+equator  ::  equator
+!  ::  exclamation_mark
+</textarea>
+<input type="submit" value="Submit" onclick="redraw()">
+<p><b>Note:</b>
+Separate text words and Blisswords with double-colon (::), and separate sentences with an empty line.
+
+</tr></table>
+
 </body>
 </html>
