@@ -1,6 +1,8 @@
 
 $(function(){
     BLISS.add_blisswords_to_class('bliss');
+    BLISS.config.margin = 16;
+    BLISS.config.radius = 4;
     redraw();
 });
 
@@ -23,6 +25,17 @@ function redraw() {
 
 
 function change_appearance() {
+
+    var radius = $('#radius').val();
+
+    $('#textoutput .bliss-dot').attr('r', radius);
+
+    var thickness = $('#thickness').val();
+
+    $('#textoutput .bliss-line').css('stroke-width', thickness);
+    $('#textoutput .bliss-disc').css('stroke-width', thickness);
+    $('#textoutput .bliss-dot').css('stroke-width', thickness);
+
     var symsize = $('#symbolsize').val();
     var margin = symsize / 5;
     var punctmargin = -symsize / 10;
