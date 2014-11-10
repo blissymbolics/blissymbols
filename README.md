@@ -6,7 +6,9 @@ A database of all official Blissymbols, and their definitions. Plus some additio
 - `blissdata.js`: this is the most important file, the database itself
 - `blissviewer.js`: a generic Javascript module for attaching Blissymbols to text
 - `blissviewer.css`: example CSS style sheet for displaying the Blissymbols
-- `blissviewer-demo.html`: a simple webpage that shows how `blissviewer.js` can be used
+- `blissviewer-demo.html`: a simple webpage that shows how `blissviewer.js` can be used; you can test it out here:
+
+  > <https://blissymbolics.github.io/blissymbols/blissviewer-demo.html>
 
 The Javascript files that are supposed to be used as library files (currently `blissdata.js` and `blissviewer.js`) all follow the [Javascript Module Pattern] [JMP] to not pollute the global namespace. To be more exact, we are using "loose augmentation" and "global import" so that the files can be loaded in any order (se the linked article for more information).
 
@@ -39,29 +41,35 @@ The database is added as a Javascript object `BLISS.data`, with the following st
 
     BLISS.data = {
         "WORDS": {
+            // a "word" consists of a horizontal sequence of "chars":
             "Tarzan": ["make-believe_man", "tropical_rain_forest,jungle"],
             ...,
         },
         "CHARS": {
+            // a "char" consists of a number of positioned "shapes", and a width and height:
             "make-believe_man": {h:5, w:128, d:[{d:"@0049",x:0,y:64}]},
             ...,
         },
         "CENTER": {
+            // for some "chars" the indicator should not be centered:
             "development": -64,
             "tool,instrument": 16,
             ...,
         },
         "KERNING-LEFT": {
-            "make-believe_man": 26,
-            "tool,instrument": 4,
+            // this specifies where the leftmost parts of a "char" are:
+            "make-believe_man": 26,  // binary 1101
+            "tool,instrument": 4,  // binary 0010
             ...,
         },
         "KERNING-RIGHT": {
-            "development": 4,
-            "make-believe_man": 26,
+            // this specifies where the rightmost parts of a "char" are:
+            "make-believe_man": 26,  // binary 1101
+            "development": 4,  // binary 0010
             ...,
         },
         "SHAPES": {
+            // a "shape" either consists of a number of other "shapes", or is a basic form:
             "@0049": ["+0048"],
             "+0048": [{x:0,y:64,d:"#L+0:128"}, {x:32,y:0,d:"#CIRCLE:64"}, ...],
             "#CIRCLE:64": {form:"circle", x:32, y:32, r:32, w:64, h:64},
@@ -80,10 +88,10 @@ This Javascript file exports the following functions:
 The arguments are as follows:
 
 - `parent` should be a reference to a HTML container (such as `<span>`, `<div>` or `<p>`).
-- `blissword`(s) is a (list of) Blissword(s), where each word is either a Blissymbol id (which is a string), or a list of ids.
-- `textword`(s) is an optional (list of) text word(s), where each word is a string.
+- `blissword(s)` is a (list of) Blissword(s), where each word is either a Blissymbol id (which is a string), or a list of ids.
+- `textword(s)` is an optional (list of) text word(s), where each word is a string.
 
-The function appends the (sequence of) `blissword`(s) to the `parent` container. The `textword`(s) is added below each Blissword, if present. See `blissviewer-demo.html` for an example of how it can be used.
+The function appends the (sequence of) `blissword(s)` to the `parent` container. The `textword(s)` is added below each Blissword, if present. See `blissviewer-demo.html` for an example of how it can be used.
 
 The function can be configured by setting the following variable:
 

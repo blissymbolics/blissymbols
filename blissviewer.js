@@ -15,6 +15,7 @@ var BLISS = (function(BLISS, DOM){
     // Default config values
 
     var default_margin = 8; // ...to make room for a stroke width of 8
+    var default_radius = 4;
 
     // Private constants
 
@@ -22,7 +23,6 @@ var BLISS = (function(BLISS, DOM){
     var BLISSHEIGHT = BLISSQUARE * 5/2;
     var BLISSQSPACE = BLISSQUARE / 4;
     var GRIDSIZE = BLISSQUARE / 2;
-    var DOT_RADIUS = 4;
 
     // SVG information
 
@@ -31,7 +31,7 @@ var BLISS = (function(BLISS, DOM){
     var SVG_END = '</g></svg>';
 
     var SVG_ELEMS = {
-        'dot':    '<circle class="bliss-disc" cx="{x}" cy="{y}" r="' + DOT_RADIUS + '"/>',
+        'dot':    '<circle class="bliss-dot" cx="{x}" cy="{y}" r="{r}"/>',
         'disc':   '<circle class="bliss-disc" cx="{x}" cy="{y}" r="{r}"/>',
         'circle': '<circle class="bliss-line" cx="{x}" cy="{y}" r="{r}"/>',
         'text':   '<text class="bliss-text" text-anchor="middle" x="{x}" y="{y}" style="font-size:{fontsize}">{text}</text>',
@@ -165,6 +165,8 @@ var BLISS = (function(BLISS, DOM){
             if (clone.form == 'text') {
                 clone.x += clone.w / 2; // center align text
                 clone.y += clone.h     // SVG text has inverted coordinate system...
+            } else if (clone.form == 'dot') {
+                clone.r = BLISS.config.radius || default_radius;
             }
             return format(SVG_ELEMS[clone.form], clone);
         }

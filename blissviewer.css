@@ -29,7 +29,7 @@ svg.bliss-svg { height: 10ex }
 
 /* Properties of SVG elements: */
 
-svg .bliss-line, svg .bliss-disc { 
+svg .bliss-line, svg .bliss-disc, svg .bliss-dot { 
     stroke: black; 
     stroke-linejoin: round; 
     stroke-linecap: round; 
@@ -40,7 +40,7 @@ svg .bliss-line {
     fill: none;
 }
 
-svg .bliss-disc { 
+svg .bliss-disc, svg .bliss-dot { 
     fill: black;
 }
 
