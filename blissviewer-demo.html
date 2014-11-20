@@ -27,27 +27,27 @@
 
 <form id="blissform" onsubmit="return false" onchange="change_appearance()">
 <table><tr>
-<td><b>Grid:</b>
+<td><b>Grid:</b><br>
 <input type="radio" name="grid" id="no-grid" checked> No
 <input type="radio" name="grid" id="sparse-grid"> Sparse
 <input type="radio" name="grid" id="dense-grid"> Dense
 
-<td  style="text-align:center"><b>Dot radius:</b>
+<td><b>Dot radius:</b><br>
 <input type="range" name="radius" id="radius" min="1" max="8" value="4" 
        oninput="this.form.viewradius.value = this.valueAsNumber">
 <output name="viewradius" for="radius">4</output> ex
 
-<td  style="text-align:center"><b>Line thickness:</b>
+<td><b>Line thickness:</b><br>
 <input type="range" name="thickness" id="thickness" min="2" max="16" value="8" 
        oninput="this.form.viewthickness.value = this.valueAsNumber">
 <output name="viewthickness" for="thickness">8</output> ex
 
-<td  style="text-align:center"><b>Symbol size:</b>
+<td><b>Symbol size:</b><br>
 <input type="range" name="symbolsize" id="symbolsize" min="5" max="40" value="10" 
        oninput="this.form.viewsymbolsize.value = this.valueAsNumber">
 <output name="viewsymbolsize" for="symbolsize">10</output> ex
 
-<td style="text-align:right"><b>Font size:</b>
+<td><b>Font size:</b><br>
 <input type="range" name="fontsize" id="fontsize" min="8" max="24" value="14" 
        oninput="this.form.viewfontsize.value = this.valueAsNumber">
 <output name="viewfontsize" for="fontsize">14</output> px

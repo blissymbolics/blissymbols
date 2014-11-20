@@ -182,7 +182,6 @@ var BLISS = (function(BLISS, DOM){
         if (inds.length) {
             console.error("Inds left:", word, "-->", groups, "/", inds);
         }
-        // console.log(word, JSON.stringify(groups));
 
         var chars = [];
         var x = 0, left = 0, right = 0, prev = null;
@@ -192,7 +191,6 @@ var BLISS = (function(BLISS, DOM){
             var w = BLISS.data.CHARS[ch].w;
             x += calculate_spacing(prev, ch);
             chars.push({x:x, y:0, d:ch});
-            // console.log(x, ch, JSON.stringify(chars));
 
             if (inds.length) {
                 var iw = (inds.length - 1) * BLISSQSPACE / 2;
@@ -208,7 +206,7 @@ var BLISS = (function(BLISS, DOM){
                     ix += BLISS.data.CENTER[ch];
                 }
                 left = Math.min(left, ix);
-                var iy = Math.min(0, -32 * (BLISS.data.CHARS[ch].h - 3));
+                var iy = Math.min(0, -16 * (BLISS.data.CHARS[ch].h - 9));
                 for (var i=0; i<inds.length; i++) {
                     var ind = inds[i];
                     if (i > 0) ix += BLISSQSPACE / 2;
@@ -276,32 +274,35 @@ var BLISS = (function(BLISS, DOM){
         }
     }
 
-    var DEFAULT_KERNING = {1:2, 2:6, 3:14, 4:14, 5:14, 6:12};
-    // ... == 1 << Math.min(4, 1 + height) - 2;
-    // ... == sum(2**h for h in range(1, min(4, 1 + height)))
-    // ... == {1: 2**1 == 2**2-2 == 2, 2: 2**1+2**2 == 2**3-2 == 6, 3..5: 2**1+2**2+2**3 == 2**4-2 == 14}
-    // exception: 6 == indicator == 1100
+    var DEFAULT_KERNING = {1:2, 2:2, // lowest
+                           3:6, 4:6, 5:6, 6:6, // low
+                           7:14, 8:14, 9:14, 10:14, // normal
+                           11:14, 12:14, 13:14, // high, highest
+                           0:12}; // indicator
+    // ... == (height == 0) ? 12 : (1 << Math.min(4, (9 + height)/4)) - 2
+    // ... == {1..2:  0b0010 ==  2 == (1<<1) == (1<<2) - 2,
+    //         3..6:  0b0110 ==  6 == (1<<1) + (1<<2) == (1<<3) - 2,
+    //         7..13: 0b1110 == 14 == (1<<1) + (1<<2) + (1<<3) == (1<<4) - 2,
+    //         0:     0b1100 == 12 == (1<<2) + (1<<3)}
 
     function kerning_possible(prev, current) {
         if (BLISS.data.CHARS[prev].w <= 24 || BLISS.data.CHARS[current].w <= 24) {
             return false;
         }
-        var right = BLISS.data['KERNING-RIGHT'][prev];
+        var right = BLISS.data.KERNING_RIGHT[prev];
         if (!right) {
-            right = DEFAULT_KERNING[BLISS.data.CHARS[prev].h];
+            right = DEFAULT_KERNING[BLISS.data.CHARS[prev].h || 0];
         }
-        var left = BLISS.data['KERNING-LEFT'][current];
+        var left = BLISS.data.KERNING_LEFT[current];
         if (!left) {
-            left = DEFAULT_KERNING[BLISS.data.CHARS[current].h];
+            left = DEFAULT_KERNING[BLISS.data.CHARS[current].h || 0];
         }
-        // console.log(prev, current, right, left, right & left, (right & left) == 0);
         return (right & left) == 0;
     }
 
 
     function add_blissvg(parent, blissword, grid) {
         var exp = expand_word(blissword);
-        // console.log(blissword, JSON.stringify(exp));
         var margin = BLISS.config.margin || default_margin;
 
         var svg = format(SVG_START, {x: exp.left - margin, 
