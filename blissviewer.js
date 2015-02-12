@@ -99,11 +99,11 @@ var BLISS = (function(BLISS, DOM){
     // Private methods
 
     function get_data(id) {
-        var data = BLISS.data.SHAPES[id];
+        var data = BLISSDATA.SHAPES[id];
         if (data) return data;
-        data = BLISS.data.CHARS[id];
+        data = BLISSDATA.CHARS[id];
         if (data) return data;
-        return BLISS.data.WORDS[id];
+        return BLISSDATA.WORDS[id];
     }
 
     function format(str, args) {
@@ -188,7 +188,7 @@ var BLISS = (function(BLISS, DOM){
         for (var g=0; g<groups.length; g++) {
             var ch = groups[g].ch;
             var inds = groups[g].inds;
-            var w = BLISS.data.CHARS[ch].w;
+            var w = BLISSDATA.CHARS[ch].w;
             x += calculate_spacing(prev, ch);
             chars.push({x:x, y:0, d:ch});
 
@@ -196,22 +196,22 @@ var BLISS = (function(BLISS, DOM){
                 var iw = (inds.length - 1) * BLISSQSPACE / 2;
                 for (var i=0; i<inds.length; i++) {
                     var ind = inds[i];
-                    iw += BLISS.data.CHARS[ind].w;
-                    if (ind in BLISS.data.CENTER) {
-                        iw += 2 * BLISS.data.CENTER[ind];
+                    iw += BLISSDATA.CHARS[ind].w;
+                    if (ind in BLISSDATA.CENTER) {
+                        iw += 2 * BLISSDATA.CENTER[ind];
                     }
                 }
                 var ix = x + (w - iw) / 2;
-                if (ch in BLISS.data.CENTER) {
-                    ix += BLISS.data.CENTER[ch];
+                if (ch in BLISSDATA.CENTER) {
+                    ix += BLISSDATA.CENTER[ch];
                 }
                 left = Math.min(left, ix);
-                var iy = Math.min(0, -16 * (BLISS.data.CHARS[ch].h - 9));
+                var iy = Math.min(0, -16 * (BLISSDATA.CHARS[ch].h - 9));
                 for (var i=0; i<inds.length; i++) {
                     var ind = inds[i];
                     if (i > 0) ix += BLISSQSPACE / 2;
                     chars.push({x:ix, y:iy, d:ind});
-                    ix += BLISS.data.CHARS[ind].w;
+                    ix += BLISSDATA.CHARS[ind].w;
                 }
                 right = Math.max(right, ix);
             }
@@ -242,12 +242,12 @@ var BLISS = (function(BLISS, DOM){
         var new_inds = [];
         for (var n=0; n<chars.length; n++) {
             var ch = chars[n].ch, cinds = chars[n].inds;
-            if (ch in BLISS.data.WORDS) {
-                var new_groups_inds = expand_list(BLISS.data.WORDS[ch], new_inds.concat(cinds));
+            if (ch in BLISSDATA.WORDS) {
+                var new_groups_inds = expand_list(BLISSDATA.WORDS[ch], new_inds.concat(cinds));
                 groups.push.apply(groups, new_groups_inds.groups);
                 new_inds = new_groups_inds.inds;
             } else {
-                if (! (ch in BLISS.data.CHARS)) {
+                if (! (ch in BLISSDATA.CHARS)) {
                     console.error("Unknown character:", ch);
                     ch = 'question_mark';
                 }
@@ -286,16 +286,16 @@ var BLISS = (function(BLISS, DOM){
     //         0:     0b1100 == 12 == (1<<2) + (1<<3)}
 
     function kerning_possible(prev, current) {
-        if (BLISS.data.CHARS[prev].w <= 24 || BLISS.data.CHARS[current].w <= 24) {
+        if (BLISSDATA.CHARS[prev].w <= 24 || BLISSDATA.CHARS[current].w <= 24) {
             return false;
         }
-        var right = BLISS.data.KERNING_RIGHT[prev];
+        var right = BLISSDATA.KERNING_RIGHT[prev];
         if (!right) {
-            right = DEFAULT_KERNING[BLISS.data.CHARS[prev].h || 0];
+            right = DEFAULT_KERNING[BLISSDATA.CHARS[prev].h || 0];
         }
-        var left = BLISS.data.KERNING_LEFT[current];
+        var left = BLISSDATA.KERNING_LEFT[current];
         if (!left) {
-            left = DEFAULT_KERNING[BLISS.data.CHARS[current].h || 0];
+            left = DEFAULT_KERNING[BLISSDATA.CHARS[current].h || 0];
         }
         return (right & left) == 0;
     }
