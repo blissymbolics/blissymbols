@@ -99,6 +99,8 @@ var BLISS = (function(BLISS, DOM){
     // Private methods
 
     function get_data(id) {
+        var data = BLISSDATA.PATHS[id];
+        if (data) return data;
         var data = BLISSDATA.SHAPES[id];
         if (data) return data;
         data = BLISSDATA.CHARS[id];
