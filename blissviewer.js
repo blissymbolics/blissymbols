@@ -137,7 +137,7 @@ var BlissViewer = (function () {
                         clone[k] = obj[k] + x;
                     }
                     else if (k[0] == 'y') {
-                        clone[k] = obj[k] + y;
+                        clone[k] = this.BLISSHEIGHT - obj[k] - y;
                     }
                     else {
                         clone[k] = obj[k];
@@ -185,7 +185,7 @@ var BlissViewer = (function () {
                     ix += this.data.center[ch];
                 }
                 left = Math.min(left, ix);
-                var iy = Math.min(0, 192 - this.data.chars[ch].h);
+                var iy = Math.max(0, this.data.chars[ch].h - 192);
                 for (var i = 0; i < inds.length; i++) {
                     var ind = inds[i];
                     if (i > 0)

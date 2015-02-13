@@ -156,7 +156,7 @@ class BlissViewer {
                     if (k[0] == 'x') {
                         clone[k] = obj[k] + x;
                     } else if (k[0] == 'y') {
-                        clone[k] = obj[k] + y;
+                        clone[k] = this.BLISSHEIGHT - obj[k] - y;
                     } else {
                         clone[k] = obj[k];
                     }
@@ -206,7 +206,7 @@ class BlissViewer {
                     ix += this.data.center[ch];
                 }
                 left = Math.min(left, ix);
-                var iy = Math.min(0, 192 - this.data.chars[ch].h);
+                var iy = Math.max(0, this.data.chars[ch].h - 192);
                 for (var i=0; i<inds.length; i++) {
                     var ind = inds[i];
                     if (i > 0) ix += this.BLISSQSPACE / 2;
