@@ -1,8 +1,12 @@
 
+var BLISS;
+
 $(function(){
+    BLISS = new BlissViewer(BLISSDATA, {
+        margin : 16,
+        radius : 4,
+    });
     BLISS.add_blisswords_to_class('bliss');
-    BLISS.config.margin = 16;
-    BLISS.config.radius = 4;
     redraw();
 });
 
