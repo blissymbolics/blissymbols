@@ -14,11 +14,11 @@ interface BlissDatabase {
     kerning_right : {[char:string] : number};
     paths : {[path:string] : {
         form : string;
-        r? : number;
-        h? : number; w? : number;
+        h : number; w : number;
         x? : number; y? : number;
         x1? : number; y1? : number;
         x2? : number; y2? : number;
+        r? : number;
     }};
     shapes : {[shape:string] : {
         x : number;
