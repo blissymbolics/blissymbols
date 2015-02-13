@@ -1,5 +1,6 @@
+
 BLISSDATA = {
-	"CENTER": {
+	"center": {
 		"blindness": -16,
 		"branch": -24,
 		"chemical_product": 48,
@@ -54,7 +55,7 @@ BLISSDATA = {
 		"year": -16,
 	},
 
-	"CHARS": {
+	"chars": {
 		"a,an,any": {"d":[{"d":"@0252","x":0,"y":176}],"h":6,"w":32},
 		"a_(lowercase)": {"d":[{"d":"@TEXT:a:56","x":0,"y":200}],"h":5,"w":32},
 		"A_(uppercase)": {"d":[{"d":"@TEXT:A:56","x":0,"y":200}],"h":5,"w":40},
@@ -1258,7 +1259,7 @@ BLISSDATA = {
 		"zigzag_line": {"d":[{"d":"@1004","x":0,"y":128}],"h":9,"w":32},
 	},
 
-	"KERNING_LEFT": {
+	"kerning_left": {
 		"a,an,any": 12,
 		"across": 6,
 		"action,act,deed": 6,
@@ -1718,7 +1719,7 @@ BLISSDATA = {
 		"yard": 6,
 	},
 
-	"KERNING_RIGHT": {
+	"kerning_right": {
 		"about,concerning,in_relation_to,of,on": 4,
 		"across": 6,
 		"action,act,deed": 6,
@@ -2196,7 +2197,7 @@ BLISSDATA = {
 		"year": 12,
 	},
 
-	"PATHS": {
+	"paths": {
 		"#A106-E:128": {"form":"arc","h":128,"r":80,"w":32,"x1":0,"x2":0,"y1":128,"y2":0},
 		"#A106-N:128": {"form":"arc","h":32,"r":80,"w":128,"x1":128,"x2":0,"y1":32,"y2":32},
 		"#A106-S:128": {"form":"arc","h":32,"r":80,"w":128,"x1":0,"x2":128,"y1":0,"y2":0},
@@ -2359,7 +2360,7 @@ BLISSDATA = {
 		"#TEXT:Z:56": {"fontsize":77,"form":"text","h":56,"text":"Z","w":32,"x":0,"y":0},
     },
 
-	"SHAPES": {
+	"shapes": {
 		"+0001": [{"d":"#A180-N:32","x":0,"y":0},{"d":"#L+56:64","x":0,"y":16},{"d":"#L+0:32","x":0,"y":64}],
 		"+0002": [{"d":"#CIRCLE:64","x":0,"y":0},{"d":"#L+45:48","x":8,"y":8},{"d":"#L-45:48","x":8,"y":8}],
 		"+0003": [{"d":"#A90-SE:64","x":0,"y":0},{"d":"#L+0:128","x":0,"y":128},{"d":"#L+90:128","x":64,"y":0},{"d":"#A90-SW:64","x":64,"y":0}],
@@ -4259,7 +4260,7 @@ BLISSDATA = {
 		"@TEXT:z:56": [{"d":"+TEXT:z:56","x":0,"y":0}],
 	},
 
-	"WORDS": {
+	"words": {
 		"ability,capability,capacity,potential": ["dot","evaluation,value"],
 		"ability_(half_sized)": ["dot","evaluation,value_(half-sized)"],
 		"aboard,on_board": ["in,inside,interior,internal","indicator_(description)","vehicle,carriage,railway_car"],
