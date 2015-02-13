@@ -5,29 +5,17 @@ A database of all official Blissymbols, and their definitions. Plus some additio
 
 - `blissdata.js`: this is the most important file, the database itself
 - `blissviewer.js`: a generic Javascript module for attaching Blissymbols to text
+  - this file is compiled from the corresponding TypeScript file `blissviewer.ts`
 - `blissviewer.css`: example CSS style sheet for displaying the Blissymbols
 - `blissviewer-demo.html`: a simple webpage that shows how `blissviewer.js` can be used; you can test it out here:
+  - <https://blissymbolics.github.io/blissymbols/blissviewer-demo.html>
+  - the demo uses a wrapper Javascript file `blissdemo.js`, and the JQuery library
 
-  > <https://blissymbolics.github.io/blissymbols/blissviewer-demo.html>
+There are only two global names that are introduced by the library: `BLISSDATA` is defined by `blissdata.js` and `BlissViewer` by `blissviewer.js`. They are supposed to be used like this:
 
-The Javascript files that are supposed to be used as library files (currently `blissdata.js` and `blissviewer.js`) all follow the [Javascript Module Pattern] [JMP] to not pollute the global namespace. To be more exact, we are using "loose augmentation" and "global import" so that the files can be loaded in any order (se the linked article for more information).
+    var myBlissViewer = new BlissViewer(BLISSDATA, {...})
 
-[JMP]: http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
-
-The namespace we are using is `BLISS`. This means that all our Javascript library files have the following structure:
-
-    var BLISS = (function (BLISS, ...possible-global-modules) {
-        // exported variables and methods
-        BLISS.exported_variable = ...;
-        BLISS.exported_method = exported_method;
-
-	    // private variables and methods
-        var private_variable = ...;
-        function private_method(...) {...}
-        function exported_method(...) {...}
-
-	    return BLISS;
-    }(BLISS || {}, ...possible-global-modules));
+(The second argument to the BlissViewer constructor is an optional configuration dictionary).
 
 Below are some more detailed information about [blissdata.js](#blissdatajs) and [blissviewer.js](#blissviewerjs). 
 
@@ -35,55 +23,80 @@ Below are some more detailed information about [blissdata.js](#blissdatajs) and 
 blissdata.js
 ------------
 
-This is a Javascript file that encodes all metadata about all official Blissymbols. It is auto-generated, compressed and quite unreadable.
+This is a Javascript file that encodes all metadata about all official Blissymbols. 
+The database is a Javascript object `BLISSDATA`, with the following structure:
 
-The database is added as a Javascript object `BLISS.data`, with the following structure:
-
-    BLISS.data = {
-        "WORDS": {
+    BLISSDATA = {
+        "words": {
             // a "word" consists of a horizontal sequence of "chars":
+            "snowplow,snowplough": ["vehicle,carriage,railway_car", "minus,no,without", "snow"],
             "Tarzan": ["make-believe_man", "tropical_rain_forest,jungle"],
             ...,
         },
-        "CHARS": {
+        "chars": {
             // a "char" consists of a number of positioned "shapes", and a width and height:
             "make-believe_man": {h:5, w:128, d:[{d:"@0049",x:0,y:64}]},
+            "meeting,encounter": {h:7, w:288, d:[{d:"@0118",x:0,y:160}, {d:"@0143",x:160,y:160}]},
             ...,
         },
-        "CENTER": {
+        "center": {
             // for some "chars" the indicator should not be centered:
             "development": -64,
             "tool,instrument": 16,
             ...,
         },
-        "KERNING-LEFT": {
+        "kerning_left": {
             // this specifies where the leftmost parts of a "char" are:
             "make-believe_man": 26,  // binary 1101
             "tool,instrument": 4,  // binary 0010
             ...,
         },
-        "KERNING-RIGHT": {
+        "kerning_right": {
             // this specifies where the rightmost parts of a "char" are:
-            "make-believe_man": 26,  // binary 1101
             "development": 4,  // binary 0010
+            "make-believe_man": 26,  // binary 1101
             ...,
         },
-        "SHAPES": {
-            // a "shape" either consists of a number of other "shapes", or is a basic form:
-            "@0049": ["+0048"],
-            "+0048": [{x:0,y:64,d:"#L+0:128"}, {x:32,y:0,d:"#CIRCLE:64"}, ...],
+        "paths": {
+            // a "path" is a basic form:
+            "#A90-W:32": {form:"arc", x1:8, y1:0, x2:8, y2:32, h:32, r:22.627, w:8},
             "#CIRCLE:64": {form:"circle", x:32, y:32, r:32, w:64, h:64},
+            "#TEXT:n:56": {form:"text", x:0, y:0, w:32, h:56, text:"n", fontsize:77},
+            ...,
+        },
+        "shapes": {
+            // a "shape" consists of a number of other "shapes" or "paths":
+            "+0043": [{x:0, y:64, d:"#CIRCLE:64"}, {x:64, y:0, d:"#L+90:96"}],
+            "@0927": [{x:0, y:0, d:"+0174"}, {x:144, y:32, d:"+0028"}],
+            ...,
+        },
+    };
+
+As it happens, the database file is stored in a format that is readable as a Python file too.
+
+There is a TypeScript description file for the database format: `blissdata.d.ts`.
 
 
 blissviewer.js
 --------------
 
-This Javascript file exports the following functions:
+This Javascript file is compiled from the TypeScript file `blissviewer.ts`. It defines a class `BlissViewer`, which is instantiated like this:
 
-    BLISS.add_blissvg = function(parent, blissword, ?grid)
-    BLISS.add_blissword = function(parent, ?blissword, ?textword, ?grid)
-    BLISS.add_blisstext = function(parent, blisswords, ?textwords, ?grid)
-    BLISS.add_blisswords_to_class = function(cls, ?grid)
+    var myBlissViewer = new BlissViewer(data, config?)
+
+The arguments are as follows:
+
+- `data` is the Blissymbol database (preferrably `BLISSDATA` as defined in `blissdata.js`)
+- `config` is an optional dictionary for setting parameters:
+  - `margin`: the extra margin to add around each Blissword (default value: 8 pixels, to account for a stroke width of 8 pixels)
+  - `radius`: the radius of a dot (default value: 4 pixels)
+
+A BlissViewer has the following public methods:
+
+    myBlissViewer.add_blissvg = function(parent, blissword, ?grid)
+    myBlissViewer.add_blissword = function(parent, ?blissword, ?textword, ?grid)
+    myBlissViewer.add_blisstext = function(parent, blisswords, ?textwords, ?grid)
+    myBlissViewer.add_blisswords_to_class = function(cls, ?grid)
 
 The arguments are as follows:
 
@@ -91,9 +104,5 @@ The arguments are as follows:
 - `blissword(s)` is a (list of) Blissword(s), where each word is either a Blissymbol id (which is a string), or a list of ids.
 - `textword(s)` is an optional (list of) text word(s), where each word is a string.
 
-The function appends the (sequence of) `blissword(s)` to the `parent` container. The `textword(s)` is added below each Blissword, if present. See `blissviewer-demo.html` for an example of how it can be used.
-
-The function can be configured by setting the following variable:
-
-- `BLISS.config.margin`: The extra margin to add around each Blissword. Default value: 8 pixels (to account for a stroke width of 8 pixels).
+The functions append the (sequence of) `blissword(s)` to the `parent` container. The `textword(s)` is added below each Blissword, if present. See `blissviewer-demo.html` and `blissdemo.js` for an example of how it can be used.
 
