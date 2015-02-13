@@ -55,7 +55,6 @@ var BlissViewer = (function () {
             'question_mark': true,
             'exclamation_mark': true
         };
-        this.DEFAULT_KERNING = { 1: 2, 2: 2, 3: 6, 4: 6, 5: 6, 6: 6, 7: 14, 8: 14, 9: 14, 10: 14, 11: 14, 12: 14, 13: 14, 0: 12 }; // indicator
         this.BLISSWORD_IS_ADDED = " ___BLISSWORD_IS_ALREADY_ADDED___";
     }
     // Private predicates
@@ -186,7 +185,7 @@ var BlissViewer = (function () {
                     ix += this.data.center[ch];
                 }
                 left = Math.min(left, ix);
-                var iy = Math.min(0, -16 * (this.data.chars[ch].h - 9));
+                var iy = Math.min(0, 192 - this.data.chars[ch].h);
                 for (var i = 0; i < inds.length; i++) {
                     var ind = inds[i];
                     if (i > 0)
@@ -260,22 +259,26 @@ var BlissViewer = (function () {
             return this.BLISSQSPACE;
         }
     };
-    // ... == (height == 0) ? 12 : (1 << Math.min(4, (9 + height)/4)) - 2
-    // ... == {1..2:  0b0010 ==  2 == (1<<1) == (1<<2) - 2,
-    //         3..6:  0b0110 ==  6 == (1<<1) + (1<<2) == (1<<3) - 2,
-    //         7..13: 0b1110 == 14 == (1<<1) + (1<<2) + (1<<3) == (1<<4) - 2,
-    //         0:     0b1100 == 12 == (1<<2) + (1<<3)}
+    BlissViewer.prototype.default_kerning = function (h) {
+        if (!h)
+            return 12; // indicator = 0b1100
+        if (h <= 80)
+            return 2; // lowest = 0b0010
+        if (h <= 144)
+            return 6; // low = 0b0110
+        return 14; // normal, high, highest = 0b1110
+    };
     BlissViewer.prototype.kerning_possible = function (prev, current) {
         if (this.data.chars[prev].w <= 24 || this.data.chars[current].w <= 24) {
             return false;
         }
         var right = this.data.kerning_right[prev];
         if (!right) {
-            right = this.DEFAULT_KERNING[this.data.chars[prev].h || 0];
+            right = this.default_kerning(this.data.chars[prev].h);
         }
         var left = this.data.kerning_left[current];
         if (!left) {
-            left = this.DEFAULT_KERNING[this.data.chars[current].h || 0];
+            left = this.default_kerning(this.data.chars[current].h);
         }
         return (right & left) == 0;
     };
