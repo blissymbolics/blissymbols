@@ -14,6 +14,7 @@ BLISSDATA = {
 		"foot": -32,
 		"forgetting,amnesia": -32,
 		"help,aid,assistance,support": 16,
+        "hip": -32,
 		"humidity": -16,
 		"hypodermic_needlepoint": -24,
 		"indicator_(description_after_fact)": -8,
