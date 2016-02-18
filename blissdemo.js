@@ -2,7 +2,7 @@
 var BLISS;
 
 $(function(){
-    BLISS = new BlissViewer(BLISSDATA, {
+    BLISS = new BlissViewer(BLISS_CHAR_DATA, BLISS_WORD_DATA, {
         margin : 16,
         radius : 4,
     });
