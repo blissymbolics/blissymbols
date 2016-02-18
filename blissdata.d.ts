@@ -1,5 +1,5 @@
 
-interface BlissDatabase {
+interface BlissCharData {
     center : {[char:string] : number};
     chars : {[char:string] : {
         h? : number;
@@ -25,5 +25,8 @@ interface BlissDatabase {
         y : number;
         d : string;
     }[]};
+}
+
+interface BlissWordData {
     words : {[word:string] : string[]};
 }

@@ -1,12 +1,13 @@
 ///<reference path="blissdata.d.ts"/>
 var BlissViewer = (function () {
-    function BlissViewer(data, config) {
+    function BlissViewer(chardata, worddata, config) {
         if (config === void 0) { config = {
             // Default config values
             margin: 8,
             radius: 4
         }; }
-        this.data = data;
+        this.chardata = chardata;
+        this.worddata = worddata;
         this.config = config;
         // Private constants
         this.BLISSQUARE = 128;
@@ -76,16 +77,16 @@ var BlissViewer = (function () {
     };
     // Private methods
     BlissViewer.prototype.get_data = function (id) {
-        var data = this.data.paths[id];
+        var data = this.chardata.paths[id];
         if (data)
             return data;
-        data = this.data.shapes[id];
+        data = this.chardata.shapes[id];
         if (data)
             return data;
-        data = this.data.chars[id];
+        data = this.chardata.chars[id];
         if (data)
             return data;
-        return this.data.words[id];
+        return this.worddata.words[id];
     };
     BlissViewer.prototype.format = function (str, args) {
         return str.replace(/\{(\w+)\}/g, function (m, p) {
@@ -168,30 +169,30 @@ var BlissViewer = (function () {
         for (var g = 0; g < groups.length; g++) {
             var ch = groups[g].ch;
             var inds = groups[g].inds;
-            var w = this.data.chars[ch].w;
+            var w = this.chardata.chars[ch].w;
             x += this.calculate_spacing(prev, ch);
             chars.push({ x: x, y: 0, d: ch });
             if (inds.length) {
                 var iw = (inds.length - 1) * this.BLISSQSPACE / 2;
                 for (var i = 0; i < inds.length; i++) {
                     var ind = inds[i];
-                    iw += this.data.chars[ind].w;
-                    if (ind in this.data.center) {
-                        iw += 2 * this.data.center[ind];
+                    iw += this.chardata.chars[ind].w;
+                    if (ind in this.chardata.center) {
+                        iw += 2 * this.chardata.center[ind];
                     }
                 }
                 var ix = x + (w - iw) / 2;
-                if (ch in this.data.center) {
-                    ix += this.data.center[ch];
+                if (ch in this.chardata.center) {
+                    ix += this.chardata.center[ch];
                 }
                 left = Math.min(left, ix);
-                var iy = Math.max(0, this.data.chars[ch].h - 192);
+                var iy = Math.max(0, this.chardata.chars[ch].h - 192);
                 for (var i = 0; i < inds.length; i++) {
                     var ind = inds[i];
                     if (i > 0)
                         ix += this.BLISSQSPACE / 2;
                     chars.push({ x: ix, y: iy, d: ind });
-                    ix += this.data.chars[ind].w;
+                    ix += this.chardata.chars[ind].w;
                 }
                 right = Math.max(right, ix);
             }
@@ -223,13 +224,13 @@ var BlissViewer = (function () {
         var new_inds = [];
         for (var n = 0; n < chars.length; n++) {
             var ch = chars[n].ch, cinds = chars[n].inds;
-            if (ch in this.data.words) {
-                var new_groups_inds = this.expand_list(this.data.words[ch], new_inds.concat(cinds));
+            if (ch in this.worddata.words) {
+                var new_groups_inds = this.expand_list(this.worddata.words[ch], new_inds.concat(cinds));
                 groups.push.apply(groups, new_groups_inds.groups);
                 new_inds = new_groups_inds.inds;
             }
             else {
-                if (!(ch in this.data.chars)) {
+                if (!(ch in this.chardata.chars)) {
                     console.error("Unknown character:", ch);
                     ch = 'question_mark';
                 }
@@ -269,16 +270,16 @@ var BlissViewer = (function () {
         return 14; // normal, high, highest = 0b1110
     };
     BlissViewer.prototype.kerning_possible = function (prev, current) {
-        if (this.data.chars[prev].w <= 24 || this.data.chars[current].w <= 24) {
+        if (this.chardata.chars[prev].w <= 24 || this.chardata.chars[current].w <= 24) {
             return false;
         }
-        var right = this.data.kerning_right[prev];
+        var right = this.chardata.kerning_right[prev];
         if (!right) {
-            right = this.default_kerning(this.data.chars[prev].h);
+            right = this.default_kerning(this.chardata.chars[prev].h);
         }
-        var left = this.data.kerning_left[current];
+        var left = this.chardata.kerning_left[current];
         if (!left) {
-            left = this.default_kerning(this.data.chars[current].h);
+            left = this.default_kerning(this.chardata.chars[current].h);
         }
         return (right & left) == 0;
     };
