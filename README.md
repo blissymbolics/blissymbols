@@ -3,7 +3,7 @@ Blissymbols
 
 A database of all official Blissymbols, and their definitions. Plus some additional utilities. Contents:
 
-- `blissdata.js`: this is the most important file, the database itself
+- `blissdata_chars.js`, `blissdata_words.js`: this are the most important files, the database itself
 - `blissviewer.js`: a generic Javascript module for attaching Blissymbols to text
   - this file is compiled from the corresponding TypeScript file `blissviewer.ts`
 - `blissviewer.css`: example CSS style sheet for displaying the Blissymbols
@@ -11,28 +11,33 @@ A database of all official Blissymbols, and their definitions. Plus some additio
   - <https://blissymbolics.github.io/blissymbols/blissviewer-demo.html>
   - the demo uses a wrapper Javascript file `blissdemo.js`, and the JQuery library
 
-There are only two global names that are introduced by the library: `BLISSDATA` is defined by `blissdata.js` and `BlissViewer` by `blissviewer.js`. They are supposed to be used like this:
+There are only three global names that are introduced by the library:
+`BLISS_CHAR_DATA`, `BLISS_WORD_DATA` and `BlissViewer` are defined by `blissdata_chars.js`, `blissdata_words.js`
+and `blissviewer.js`, respectively. They are supposed to be used like this:
 
-    var myBlissViewer = new BlissViewer(BLISSDATA, {...})
+    var myBlissViewer = new BlissViewer(BLISS_CHAR_DATA, BLISS_WORD_DATA, {...})
 
-(The second argument to the BlissViewer constructor is an optional configuration dictionary).
+(The third argument to the BlissViewer constructor is an optional configuration dictionary).
 
-Below are some more detailed information about [blissdata.js](#blissdatajs) and [blissviewer.js](#blissviewerjs). 
+Below are some more detailed information about [blissdata_(char/word).js](#blissdatacharwordjs) and [blissviewer.js](#blissviewerjs). 
 
 
-blissdata.js
-------------
+blissdata_(char/word).js
+------------------------
 
-This is a Javascript file that encodes all metadata about all official Blissymbols. 
-The database is a Javascript object `BLISSDATA`, with the following structure:
+These are Javascript files that encode all metadata about all official Blissymbols. 
+The database consists of two Javascript objects `BLISS_CHAR_DATA` and `BLISS_WORD_DATA`,
+with the following structures:
 
-    BLISSDATA = {
+    BLISS_WORD_DATA = {
         "words": {
             // a "word" consists of a horizontal sequence of "chars":
             "snowplow,snowplough": ["vehicle,carriage,railway_car", "minus,no,without", "snow"],
             "Tarzan": ["make-believe_man", "tropical_rain_forest,jungle"],
             ...,
         },
+    };
+    BLISS_CHAR_DATA = {
         "chars": {
             // a "char" consists of a number of positioned "shapes", and a width and height:
             "make-believe_man": {h:5, w:128, d:[{d:"@0049",x:0,y:64}]},
