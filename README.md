@@ -19,13 +19,13 @@ and `blissviewer.js`, respectively. They are supposed to be used like this:
 
 (The third argument to the BlissViewer constructor is an optional configuration dictionary).
 
-Below are some more detailed information about [blissdata_(char/word).js](#blissdatacharwordjs) and [blissviewer.js](#blissviewerjs). 
+Below are some more detailed information about [blissdata_(char/word).js](#blissdatacharwordjs) and [blissviewer.js](#blissviewerjs).
 
 
 blissdata_(char/word).js
 ------------------------
 
-These are Javascript files that encode all metadata about all official Blissymbols. 
+These are Javascript files that encode all metadata about all official Blissymbols.
 The database consists of two Javascript objects `BLISS_CHAR_DATA` and `BLISS_WORD_DATA`,
 with the following structures:
 
@@ -111,3 +111,15 @@ The arguments are as follows:
 
 The functions append the (sequence of) `blissword(s)` to the `parent` container. The `textword(s)` is added below each Blissword, if present. See `blissviewer-demo.html` and `blissdemo.js` for an example of how it can be used.
 
+
+Note about the database
+-----------------------
+
+The database is split into two files, one for the characters and one for the words.
+This is because all updates of word definitions should be made using the Karp online lexicon,
+from Språkbanken:
+
+- http://spraakbanken.gu.se/karp/#?lang=eng&resources=blissword,blisschar
+
+There is a script, `download_and_update_blissdata_words.py`, which is run irregularly to keep
+the database in this repository in sync with Karp.

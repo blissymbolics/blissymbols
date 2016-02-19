@@ -1,6 +1,6 @@
 """
 This script reads the up-to-date blissword definitions from Sprakbanken's XML,
-and prints them in Javascript format (also readable as a Python file).
+and converts them to the Javascript database file (also readable as a Python file).
 """
 
 import urllib.request
@@ -36,7 +36,7 @@ def main():
         print('\t"words": {', file=output)
         for entry in handler.definitions:
             print("\t\t%s: %s," % (
-                json.dumps(entry[0]), 
+                json.dumps(entry[0]),
                 json.dumps(entry[1:], separators=(',',':'))
             ), file=output)
         print('\t},\n};', file=output)
