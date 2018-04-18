@@ -4,7 +4,7 @@ var BlissViewer = (function () {
         if (config === void 0) { config = {
             // Default config values
             margin: 8,
-            radius: 4
+            radius: 2
         }; }
         this.chardata = chardata;
         this.worddata = worddata;
