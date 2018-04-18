@@ -23,8 +23,8 @@ var BlissViewer = (function () {
             circle: '<circle class="bliss-line" cx="{x}" cy="{y}" r="{r}"/>',
             text: '<text class="bliss-text" text-anchor="middle" ' + 'x="{x}" y="{y}" style="font-size:{fontsize}">{text}</text>',
             line: '<line class="bliss-line" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>',
-            arc: '<path class="bliss-line" d="M {x1},{y1} A {r},{r} 0 0,0 {x2},{y2}"/>',
-            bigarc: '<path class="bliss-line" d="M {x1},{y1} A {r},{r} 0 1,0 {x2},{y2}"/>',
+            arc: '<path class="bliss-line" d="M {x1},{y1} A {rx},{ry} 0 0,0 {x2},{y2}"/>',
+            bigarc: '<path class="bliss-line" d="M {x1},{y1} A {rx},{ry} 0 1,0 {x2},{y2}"/>',
             grid: '<line class="bliss-grid-{grid}" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>'
         };
         // TODO: These should be added to blissdata.js instead of being hard-coded here:
