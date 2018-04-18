@@ -15,7 +15,7 @@ var BlissViewer = (function () {
         this.BLISSQSPACE = this.BLISSQUARE / 4;
         this.GRIDSIZE = this.BLISSQUARE / 2;
         // SVG information
-        this.SVG_START = ('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="true" ' + 'class="bliss-svg" viewBox="{x} {y} {w} {h}"><g>');
+        this.SVG_START = ('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMid" ' + 'class="bliss-svg" viewBox="{x} {y} {w} {h}"><g>');
         this.SVG_END = '</g></svg>';
         this.SVG_ELEMS = {
             dot: '<circle class="bliss-dot" cx="{x}" cy="{y}" r="{r}"/>',
