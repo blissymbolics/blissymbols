@@ -37,6 +37,7 @@ BLISS_CHAR_DATA = {
 		"point,tip,peak": -24,
 		"portability": -32,
 		"projector": -32,
+		"pull,pulling": -32,
 		"race,competition,contest": -32,
 		"roller_skates": -32,
 		"rotation,circulation,orbit,lap,circle,round": 16,
