@@ -31,7 +31,7 @@ function redraw() {
 function change_appearance() {
 
     var thickness = Number($('#thickness').val());
-    var addToDot = 4;
+    var addToDot = 6;
     var dotThickness = (thickness + addToDot) / 2;
     var radius = dotThickness / 2;
 
