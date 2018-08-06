@@ -24,7 +24,7 @@ class BlissViewer {
 
     // SVG information
 
-    private SVG_START = ('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="true" ' + 
+    private SVG_START = ('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMid" ' + 
                          'class="bliss-svg" viewBox="{x} {y} {w} {h}"><g>');
     private SVG_END = '</g></svg>';
 
@@ -35,8 +35,9 @@ class BlissViewer {
         text:   '<text class="bliss-text" text-anchor="middle" '
             + 'x="{x}" y="{y}" style="font-size:{fontsize}">{text}</text>',
         line:   '<line class="bliss-line" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>',
-        arc:    '<path class="bliss-line" d="M {x1},{y1} A {r},{r} 0 0,0 {x2},{y2}"/>',
-        bigarc: '<path class="bliss-line" d="M {x1},{y1} A {r},{r} 0 1,0 {x2},{y2}"/>',
+        arc:    '<path class="bliss-line" d="M {x1},{y1} A {rx},{ry} 0 0,0 {x2},{y2}"/>',
+        bigarc: '<path class="bliss-line" d="M {x1},{y1} A {rx},{ry} 0 1,0 {x2},{y2}"/>',
+        quadratic: '<path class="bliss-line" d="M {x1},{y1} Q {q1},{q2} {x2},{y2}"/>',
         grid:   '<line class="bliss-grid-{grid}" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>',
     }
 
