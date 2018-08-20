@@ -37,7 +37,7 @@ class BlissViewer {
         line:   '<line class="bliss-line" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>',
         arc:    '<path class="bliss-line" d="M {x1},{y1} A {rx},{ry} 0 0,0 {x2},{y2}"/>',
         bigarc: '<path class="bliss-line" d="M {x1},{y1} A {rx},{ry} 0 1,0 {x2},{y2}"/>',
-        quadratic: '<path class="bliss-line" d="M {x1},{y1} Q {q1},{q2} {x2},{y2}"/>',
+        quadratic: '<path class="bliss-line" d="M {x1},{y1} Q {qx},{qy} {x2},{y2}"/>',
         grid:   '<line class="bliss-grid-{grid}" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>',
     }
 
@@ -158,6 +158,10 @@ class BlissViewer {
                     if (k[0] == 'x') {
                         clone[k] = obj[k] + x;
                     } else if (k[0] == 'y') {
+                        clone[k] = this.BLISSHEIGHT - obj[k] - y;
+                    } else if (k == 'qx') {
+                        clone[k] = obj[k] + x;
+                    } else if (k == 'qy') {
                         clone[k] = this.BLISSHEIGHT - obj[k] - y;
                     } else {
                         clone[k] = obj[k];

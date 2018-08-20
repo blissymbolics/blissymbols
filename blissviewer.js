@@ -141,6 +141,12 @@ var BlissViewer = (function () {
                     else if (k[0] == 'y') {
                         clone[k] = this.BLISSHEIGHT - obj[k] - y;
                     }
+                    else if (k == 'qx') {
+                        clone[k] = obj[k] + x;
+                    }
+                    else if (k == 'qy') {
+                        clone[k] = this.BLISSHEIGHT - obj[k] - y;
+                    }
                     else {
                         clone[k] = obj[k];
                     }
