@@ -42,7 +42,6 @@ BLISS_CHAR_DATA = {
 		"roller_skates": -32,
 		"rotation,circulation,orbit,lap,circle,round": 16,
 		"signal,broadcast,transmitting": -8,
-		"smoking_(cigarette)": -8,
 		"spitting": -48,
 		"steering_wheel": -16,
 		"that_(there)": 8,
