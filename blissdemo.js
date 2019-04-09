@@ -30,15 +30,17 @@ function redraw() {
 
 function change_appearance() {
 
-    var radius = $('#radius').val();
+    var thickness = Number($('#thickness').val());
+    var addToDot = 5.33;
+    var dotThickness = (thickness + addToDot) / 2;
+    var radius = dotThickness / 2;
 
     $('#textoutput .bliss-dot').attr('r', radius);
-
-    var thickness = $('#thickness').val();
+    $('#textoutput .bliss-disc').attr('r', radius);
 
     $('#textoutput .bliss-line').css('stroke-width', thickness);
-    $('#textoutput .bliss-disc').css('stroke-width', thickness);
-    $('#textoutput .bliss-dot').css('stroke-width', thickness);
+    $('#textoutput .bliss-disc').css('stroke-width', dotThickness);
+    $('#textoutput .bliss-dot').css('stroke-width', dotThickness);
 
     var symsize = $('#symbolsize').val();
     var margin = symsize / 5;

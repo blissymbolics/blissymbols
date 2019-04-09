@@ -18,7 +18,8 @@ interface BlissCharData {
         x? : number; y? : number;
         x1? : number; y1? : number;
         x2? : number; y2? : number;
-        r? : number;
+        qx? : number; qy? : number;
+        r? : number; rx? : number; ry? : number;
     }};
     shapes : {[shape:string] : {
         x : number;

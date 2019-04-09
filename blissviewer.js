@@ -15,7 +15,7 @@ var BlissViewer = (function () {
         this.BLISSQSPACE = this.BLISSQUARE / 4;
         this.GRIDSIZE = this.BLISSQUARE / 2;
         // SVG information
-        this.SVG_START = ('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="true" ' + 'class="bliss-svg" viewBox="{x} {y} {w} {h}"><g>');
+        this.SVG_START = ('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMid" ' + 'class="bliss-svg" viewBox="{x} {y} {w} {h}"><g>');
         this.SVG_END = '</g></svg>';
         this.SVG_ELEMS = {
             dot: '<circle class="bliss-dot" cx="{x}" cy="{y}" r="{r}"/>',
@@ -23,8 +23,9 @@ var BlissViewer = (function () {
             circle: '<circle class="bliss-line" cx="{x}" cy="{y}" r="{r}"/>',
             text: '<text class="bliss-text" text-anchor="middle" ' + 'x="{x}" y="{y}" style="font-size:{fontsize}">{text}</text>',
             line: '<line class="bliss-line" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>',
-            arc: '<path class="bliss-line" d="M {x1},{y1} A {r},{r} 0 0,0 {x2},{y2}"/>',
-            bigarc: '<path class="bliss-line" d="M {x1},{y1} A {r},{r} 0 1,0 {x2},{y2}"/>',
+            arc: '<path class="bliss-line" d="M {x1},{y1} A {rx},{ry} 0 0,0 {x2},{y2}"/>',
+            bigarc: '<path class="bliss-line" d="M {x1},{y1} A {rx},{ry} 0 1,0 {x2},{y2}"/>',
+            quadratic: '<path class="bliss-line" d="M {x1},{y1} Q {qx},{qy} {x2},{y2}"/>',
             grid: '<line class="bliss-grid-{grid}" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}"/>'
         };
         // TODO: These should be added to blissdata.js instead of being hard-coded here:
@@ -138,6 +139,12 @@ var BlissViewer = (function () {
                         clone[k] = obj[k] + x;
                     }
                     else if (k[0] == 'y') {
+                        clone[k] = this.BLISSHEIGHT - obj[k] - y;
+                    }
+                    else if (k == 'qx') {
+                        clone[k] = obj[k] + x;
+                    }
+                    else if (k == 'qy') {
                         clone[k] = this.BLISSHEIGHT - obj[k] - y;
                     }
                     else {
