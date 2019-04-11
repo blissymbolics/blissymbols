@@ -9,7 +9,7 @@ BLISS_CHAR_DATA = {
 		"continuance,continuation": -32,
 		"cup": -16,
 		"development": -32,
-		"eaves_character": -24,
+		"protection_with_pointer": -24,
 		"emptying,voidance,evacuation": -48,
 		"finger": -24,
 		"foot": -32,
