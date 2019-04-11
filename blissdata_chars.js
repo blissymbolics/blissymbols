@@ -143,7 +143,7 @@ BLISS_CHAR_DATA = {
 		"bird": {"d":[{"d":"@0160","x":0,"y":128}],"h":192,"w":128},
 		"bird_of_prey,raptor": {"d":[{"d":"@0440","x":0,"y":128}],"h":192,"w":128},
 		"birth": {"d":[{"d":"@0017","x":0,"y":128}],"h":192,"w":128},
-		"birth,giving_birth,partuition,delivery": {"d":[{"d":"@0441","x":0,"y":64}],"h":192,"w":192},
+		"birth,giving_birth,parturition,delivery": {"d":[{"d":"@0441","x":0,"y":64}],"h":192,"w":192},
 		"blindness": {"d":[{"d":"@0447","x":0,"y":64}],"h":192,"w":128},
 		"bliss-name": {"d":[{"d":"@0028","x":0,"y":64}],"h":192,"w":128},
 		"blissymbol,Bliss-word": {"d":[{"d":"@0056","x":0,"y":64}],"h":192,"w":128},
