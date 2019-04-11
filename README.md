@@ -52,14 +52,14 @@ with the following structures:
         },
         "kerning_left": {
             // this specifies where the leftmost parts of a "char" are:
-            "make-believe_man": 26,  // binary 1101
-            "tool,instrument": 4,  // binary 0010
+            "make-believe_man": 26,  // binary 11010
+            "tool,instrument": 4,  // binary 00100
             ...,
         },
         "kerning_right": {
             // this specifies where the rightmost parts of a "char" are:
-            "development": 4,  // binary 0010
-            "make-believe_man": 26,  // binary 1101
+            "development": 4,  // binary 00100
+            "make-believe_man": 26,  // binary 11010
             ...,
         },
         "paths": {
