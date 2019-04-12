@@ -1,5 +1,7 @@
 BLISS_CHAR_DATA = {
 	"center": {
+		"ability,capability,capacity,potential": 32,
+		"ability_(half-sized)": 32,
 		"blindness": -16,
 		"branch": -24,
 		"cart,carriage": -32,
@@ -59,6 +61,8 @@ BLISS_CHAR_DATA = {
 		"a,an,any": {"d":[{"d":"@0252","x":0,"y":112}],"h":144,"w":32},
 		"a_(lowercase)": {"d":[{"d":"@TEXT:a:64","x":0,"y":64}],"h":128,"w":32},
 		"A_(uppercase)": {"d":[{"d":"@TEXT:A:64","x":0,"y":64}],"h":128,"w":40},
+		"ability,capability,capacity,potential": {"d":[{"d":"@0011","x":0,"y":128}, {"d":"@0253","x":32,"y":64}],"h":128,"w":160},
+		"ability_(half_sized)": {"d":[{"d":"@0011","x":0,"y":128}, {"d":"@0254","x":32,"y":64}],"h":128,"w":160},
 		"about,concerning,in_relation_to,of,on": {"d":[{"d":"@0237","x":0,"y":128}],"h":160,"w":32},
 		"account": {"d":[{"d":"@0267","x":0,"y":96}],"h":192,"w":128},
 		"across": {"d":[{"d":"@0276","x":0,"y":64}],"h":160,"w":64},
@@ -1655,6 +1659,7 @@ BLISS_CHAR_DATA = {
 	},
 
 	"kerning_right": {
+		"ability,capability,capacity,potential": 12,
 		"about,concerning,in_relation_to,of,on": 4,
 		"across": 6,
 		"action,act,deed": 6,
