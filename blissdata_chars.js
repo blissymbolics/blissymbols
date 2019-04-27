@@ -31,7 +31,6 @@ BLISS_CHAR_DATA = {
 		"legs_and_feet": -32,
 		"mixture": -32,
 		"mug,cup": -16,
-		"need_(needy_person)": -16,
 		"newness,novelty": -32,
 		"out,exterior,external,outside": -16,
 		"out_of,exit_(forward)": -32,
