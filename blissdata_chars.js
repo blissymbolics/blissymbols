@@ -183,7 +183,7 @@ BLISS_CHAR_DATA = {
 		"branch": {"d":[{"d":"@0479","x":0,"y":64}],"h":192,"w":176},
 		"bread,loaf_of_bread,loaf": {"d":[{"d":"@0147","x":0,"y":64}],"h":128,"w":160},
 		"bread_surface": {"d":[{"d":"@0481","x":0,"y":112}],"h":176,"w":160},
-		"break,fracture": {"d":[{"d":"@0484","x":0,"y":64}],"h":128,"w":128},
+		"break,fracture,damage": {"d":[{"d":"@0484","x":0,"y":64}],"h":128,"w":128},
 		"breast(s)": {"d":[{"d":"@0475","x":0,"y":64}],"h":192,"w":192},
 		"bridge,overpass": {"d":[{"d":"@0161","x":0,"y":64}],"h":128,"w":256},
 		"broom": {"d":[{"d":"@0490","x":0,"y":64}],"h":192,"w":128},
@@ -1259,7 +1259,7 @@ BLISS_CHAR_DATA = {
 		"bow_and_string_(musical)": 6,
 		"branch": 4,
 		"bread_surface": 6,
-		"break,fracture": 4,
+		"break,fracture,damage": 4,
 		"bridge,overpass": 2,
 		"broom": 6,
 		"brush": 12,
@@ -1722,7 +1722,7 @@ BLISS_CHAR_DATA = {
 		"box,cube": 28,
 		"brain_signal": 12,
 		"bread_surface": 6,
-		"break,fracture": 2,
+		"break,fracture,damage": 2,
 		"bridge,overpass": 2,
 		"broom": 6,
 		"brush": 12,
@@ -4232,5 +4232,4 @@ BLISS_CHAR_DATA = {
 		"@TEXT:Z:64": [{"d":"+TEXT:Z:64","x":0,"y":0}],
 		"@TEXT:z:64": [{"d":"+TEXT:z:64","x":0,"y":0}],
 	},
-
 };
