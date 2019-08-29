@@ -19,10 +19,10 @@ and `blissviewer.js`, respectively. They are supposed to be used like this:
 
 (The third argument to the BlissViewer constructor is an optional configuration dictionary).
 
-Below are some more detailed information about [blissdata_(char/word).js](#blissdatacharwordjs) and [blissviewer.js](#blissviewerjs).
+Below are some more detailed information about [blissdata_(chars/words).js](#blissdatacharwordsjs) and [blissviewer.js](#blissviewerjs).
 
 
-blissdata_(char/word).js
+blissdata_(chars/words).js
 ------------------------
 
 These are Javascript files that encode all metadata about all official Blissymbols.
@@ -31,7 +31,7 @@ with the following structures:
 
     BLISS_WORD_DATA = {
         "words": {
-            // a "word" consists of a horizontal sequence of "chars":
+            // a "word" consists of a horizontal sequence of "chars" or "words":
             "snowplow,snowplough": ["vehicle,carriage,railway_car", "minus,no,without", "snow"],
             "Tarzan": ["make-believe_man", "tropical_rain_forest,jungle"],
             ...,
