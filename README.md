@@ -19,7 +19,7 @@ and `blissviewer.js`, respectively. They are supposed to be used like this:
 
 (The third argument to the BlissViewer constructor is an optional configuration dictionary).
 
-Below are some more detailed information about [blissdata_(chars/words).js](#blissdatacharwordsjs) and [blissviewer.js](#blissviewerjs).
+Below are some more detailed information about [blissdata_(chars/words).js](#blissdata_charswordsjs) and [blissviewer.js](#blissviewerjs).
 
 
 blissdata_(chars/words).js
