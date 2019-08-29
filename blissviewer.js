@@ -38,7 +38,7 @@ var BlissViewer = (function () {
             'dot': true,
             'generalization': true,
             'group_of,much_of,many_of,quantity_of': true,
-            'indicator_(combine)': true,
+            'combine_marker': true,
             'intensity': true,
             'line,stripe': true,
             'metaphor': true,
