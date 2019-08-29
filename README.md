@@ -119,7 +119,7 @@ The database is split into two files, one for the characters and one for the wor
 This is because all updates of word definitions should be made using the Karp online lexicon,
 from Språkbanken:
 
-- http://spraakbanken.gu.se/karp/#?lang=eng&resources=blissword,blisschar
+- https://spraakbanken.gu.se/karp/#?mode=bliss&lang=eng&resources=blissword,blisschar
 
 There is a script, `download_and_update_blissdata_words.py`, which is run irregularly to keep
 the database in this repository in sync with Karp.
