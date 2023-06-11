@@ -80,12 +80,11 @@ class BlissViewer {
     }
 
     private is_digit(dig) {
-        return dig.slice(-7) == '(digit)';
+        return dig.includes('(digit)');
     }
 
     private is_letter(letter) {
-        var suffix = letter.slice(-11);
-        return suffix == '(uppercase)' || suffix == '(lowercase)';
+        return letter.includes('(uppercase)') || letter.includes('(lowercase)');
     }
 
     private is_punctuation(punct) {

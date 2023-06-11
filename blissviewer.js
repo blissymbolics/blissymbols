@@ -64,11 +64,10 @@ var BlissViewer = (function () {
         return this.MODIFIERS[mod];
     };
     BlissViewer.prototype.is_digit = function (dig) {
-        return dig.slice(-7) == '(digit)';
+        return dig.includes('(digit)');
     };
     BlissViewer.prototype.is_letter = function (letter) {
-        var suffix = letter.slice(-11);
-        return suffix == '(uppercase)' || suffix == '(lowercase)';
+        return letter.includes('(uppercase)') || letter.includes('(lowercase)');
     };
     BlissViewer.prototype.is_punctuation = function (punct) {
         return this.PUNCTUATIONS[punct];
